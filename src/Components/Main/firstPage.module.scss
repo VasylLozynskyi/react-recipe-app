@@ -1,0 +1,46 @@
+.wrapper_firstpage{
+    text-align: center;
+    padding-top: 105px;
+    color: #ffffff;
+    position: relative;
+    height: 100%;
+    background-image:  linear-gradient(179.98deg, rgba(0, 0, 0, 0.4) 0.01%, #000000 99.99%),
+    url(../../assets/images/Main/background__firstPage.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 30px;
+    .firstPage_section{
+       p{
+        margin-top: 15px;
+        font-size: 18px;
+        line-height: 27px;
+       }
+    }
+    .headerH1{
+        position: absolute;
+        bottom: 80px;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        max-width: 310px;
+        h1{
+            font-size: 50px;
+            line-height: 120%;
+        }
+        p{
+            font-family: "Poppins-Ragular";
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            margin: 20px 0;
+        }
+        .btnStartCooking{
+            button{
+                width: 240px;
+            }
+        }
+    }
+    
+}

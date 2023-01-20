@@ -1,0 +1,97 @@
+.wrapper_form{
+    position: relative;
+    
+    .form_group{
+        font-family: 'Poppins-Ragular';
+        label{
+            display: block;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 21px;
+            margin: 35px 0 0 5px;
+        }
+        input{
+            width: 315px;
+            height: 55px;
+            border: 1.5px solid #D9D9D9;
+            border-radius: 10px;
+            padding-left: 20px;
+            &::placeholder{
+                color: #D9D9D9;
+            }
+            &.is_invalid{
+                border-color: red;
+            }
+            &:hover{
+                border-color: #129575;
+            }
+        }
+        .invalid_feedback{
+            color: red;
+            margin-top: 10px;
+        }
+    }
+    .forgot_pass{
+        margin: 20px;
+        position: absolute;
+        min-width: 150px;
+        a{
+            color: #FF9C00;
+            position: relative;
+            
+            &:hover{
+                position: absolute;
+                color: #129575;
+                transform:scale(1.1);
+                transition: 1s color;
+            }
+        }
+    }
+    button{
+        margin: 65px 0 30px 0;
+        width: 315px;
+        height: 60px;
+        span{
+            margin-left: 50px;
+        }
+        &:hover{
+            background-color:#FF9C00;
+            transition: 1s;
+        }
+    }
+}
+.blockBtnSignUp{
+    position: absolute;
+    bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    .absolPosition{
+        height: 16px;
+        position: relative;
+        .btn_Signup{
+            color: #FF9C00;
+            position: relative;
+          &:hover{
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #129575;
+            transform:scale(1.1);
+            transition: 1s color;
+            }
+        }
+    }
+    p{  
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 16px;
+        margin-bottom: 10px;
+    }
+   
+}
