@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./formsignup.module.scss"
-import LoginwithSoc from "./loginwithSoc";
+// import LoginwithSoc from "./loginwithSoc";
 
   class FormSignUp extends React.Component {
     constructor(props){
@@ -124,10 +124,10 @@ import LoginwithSoc from "./loginwithSoc";
       let confirmpassword_err_class = this.state.errors.confirmpassword || this.state.errors.login ? `${style.is_invalid}` : ``;
       let accept_error_class = !this.state.accept && !this.state.errors.accept ? {color: "red"} : {color: "#FF9C00"};
       let border_checkbox_error_class = !this.state.accept && !this.state.errors.accept ? {border: "1px solid red"} : {border: "1px solid #FF9C00"};
-      const typeOfLogin = [
-        "GMAIL",
-        "FACEBOOK"
-      ];
+      // const typeOfLogin = [
+      //   "GMAIL",
+      //   "FACEBOOK"
+      // ];
       return ( // className={}}
         <div className={style.wrapper_form}>
           <form onSubmit={this.handleSubmit}>
@@ -153,7 +153,7 @@ import LoginwithSoc from "./loginwithSoc";
           </form>
           <div className={style.text_danger}>{login_err}</div>
           <hr/>
-          <LoginwithSoc typeOfLogin={typeOfLogin} />
+          {/* <LoginwithSoc typeOfLogin={typeOfLogin} /> */}
         </div>
       );
     }

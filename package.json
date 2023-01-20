@@ -1,13 +1,10 @@
 {
   "name": "recipe-app",
   "version": "0.1.0",
+  "homepage": "https://vasyllozynskyi.github.io/react-recipe-app",
   "private": true,
   "dependencies": {
-    "@emotion/styled": "^11.10.5",
     "@icongo/bs": "^1.1.2",
-    "@iconify/react": "^4.0.1",
-    "@mui/lab": "^5.0.0-alpha.116",
-    "@mui/material": "^5.11.5",
     "@sentry/browser": "^7.31.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -31,6 +28,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -53,5 +52,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./forms.module.scss"
-import LoginwithSoc from "./loginwithSoc";
+// import LoginwithSoc from "./loginwithSoc";
 
   class FormSignIn extends React.Component {
     constructor(props){
@@ -34,7 +34,7 @@ import LoginwithSoc from "./loginwithSoc";
       
       let has_errors = false;
       
-      if(form_email == null || form_email.length == 0){
+      if(form_email === null || form_email.length === 0){
         form_errors.email = "Email field cannot be empty";
         has_errors = true;
       }else{
@@ -47,7 +47,7 @@ import LoginwithSoc from "./loginwithSoc";
         }
       }
       
-      if(form_password == null || form_password.length == 0){
+      if(form_password === null || form_password.length === 0){
         form_errors.password = "Password field cannot be empty";
         has_errors = true;
       }else if (form_password.length < 8){
@@ -59,7 +59,7 @@ import LoginwithSoc from "./loginwithSoc";
       }
       // back-end part
       if(!has_errors){
-        let allUsers = [];
+        // let allUsers = [];
       }
       //
 
@@ -76,10 +76,10 @@ import LoginwithSoc from "./loginwithSoc";
 
       console.log(email_err_class);
       let password_err_class = this.state.errors.password || this.state.errors.login ? `${style.is_invalid}` : ``;
-      const typeOfLogin = [
-        "GMAIL",
-        "FACEBOOK"
-      ];
+      // const typeOfLogin = [
+      //   "GMAIL",
+      //   "FACEBOOK"
+      // ];
       return ( // className={}}
         <div className={style.wrapper_form}>
           <form onSubmit={this.handleSubmit}>
@@ -96,7 +96,7 @@ import LoginwithSoc from "./loginwithSoc";
           </form>
           <div className={style.text_danger}>{login_err}</div>
           <hr/>
-          <LoginwithSoc typeOfLogin={typeOfLogin} />     
+          {/* <LoginwithSoc typeOfLogin={typeOfLogin} />      */}
         </div>
       );
     }

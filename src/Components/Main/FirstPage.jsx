@@ -2,6 +2,7 @@ import React from "react";
 import iconHat from "../../assets/images/Main/iconHat.png";
 import style from "./firstPage.module.scss";
 import HomeIndicator from "../components/HomeIndicator/HomeIndicator";
+import {Link} from 'react-router-dom';
 
 const FirstPage = () => {
         return (
@@ -13,7 +14,7 @@ const FirstPage = () => {
                 <div className={style.headerH1}>
                     <h1>Get Cooking</h1>
                     <p>Simple way to find Tasty Recipe</p>
-                    <a href="/login" className={style.btnStartCooking}><button>Start Cooking</button></a>
+                    <Link to="/login" className={style.btnStartCooking}><button>Start Cooking</button></Link>
                 </div>
                 <HomeIndicator style = "white" />
             </div>

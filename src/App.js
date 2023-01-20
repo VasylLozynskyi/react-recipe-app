@@ -4,12 +4,14 @@ import {BrowserRouter} from "react-router-dom";
 
 function App() {
   return (
-    <div className="container">
-      <BrowserRouter>
-        <Main/>
-    </BrowserRouter>
     
-    </div>
+      <BrowserRouter>
+      <div className="container">
+        <Main/>
+      </div>
+      </BrowserRouter>
+    
+    
   );
 }
 
