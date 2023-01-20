@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-recipe-app/static/css/main.9307a61d.css",
-    "main.js": "/react-recipe-app/static/js/main.34c584b7.js",
+    "main.css": "/react-recipe-app/static/css/main.e94e3cbf.css",
+    "main.js": "/react-recipe-app/static/js/main.fa66ed7d.js",
     "static/media/background__firstPage.png": "/react-recipe-app/static/media/background__firstPage.c211bbc14a0f5db45742.png",
     "static/media/Poppins-Regular.ttf": "/react-recipe-app/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
     "static/media/Poppins-Bold.ttf": "/react-recipe-app/static/media/Poppins-Bold.cdb29a5d7ccf57ff05a3.ttf",
     "index.html": "/react-recipe-app/index.html",
-    "main.9307a61d.css.map": "/react-recipe-app/static/css/main.9307a61d.css.map",
-    "main.34c584b7.js.map": "/react-recipe-app/static/js/main.34c584b7.js.map"
+    "main.e94e3cbf.css.map": "/react-recipe-app/static/css/main.e94e3cbf.css.map",
+    "main.fa66ed7d.js.map": "/react-recipe-app/static/js/main.fa66ed7d.js.map"
   },
   "entrypoints": [
-    "static/css/main.9307a61d.css",
-    "static/js/main.34c584b7.js"
+    "static/css/main.e94e3cbf.css",
+    "static/js/main.fa66ed7d.js"
   ]
 }
