@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./formsignup.module.scss"
-// import LoginwithSoc from "./loginwithSoc";
+import LoginwithSoc from "./loginwithSoc";
 
   class FormSignUp extends React.Component {
     constructor(props){
@@ -124,10 +124,10 @@ import style from "./formsignup.module.scss"
       let confirmpassword_err_class = this.state.errors.confirmpassword || this.state.errors.login ? `${style.is_invalid}` : ``;
       let accept_error_class = !this.state.accept && !this.state.errors.accept ? {color: "red"} : {color: "#FF9C00"};
       let border_checkbox_error_class = !this.state.accept && !this.state.errors.accept ? {border: "1px solid red"} : {border: "1px solid #FF9C00"};
-      // const typeOfLogin = [
-      //   "GMAIL",
-      //   "FACEBOOK"
-      // ];
+      const typeOfLogin = [
+        "GMAIL",
+        "FACEBOOK"
+      ];
       return ( // className={}}
         <div className={style.wrapper_form}>
           <form onSubmit={this.handleSubmit}>
@@ -145,15 +145,15 @@ import style from "./formsignup.module.scss"
                 <input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm Password" onChange={this.handleChange} className={confirmpassword_err_class}/>
                 <div className={style.invalid_feedback}>{confirmpassword_err}</div>
             </div>
-                <label style = {accept_error_class}  className={style.labelcheckade} htmlFor="accept" onChange={this.handleChange}>Accept terms & Condition
+                <label style = {accept_error_class}  className={style.labelcheckade} htmlFor="accept" onChange={this.handleChange}>
                   <input className={style.checked} type="checkbox" name="accept" id="accept"/>
                   <span style = {border_checkbox_error_class} className={style.checkmark}></span>
+                  Accept terms & Condition
                 </label>
             <button type="submit" id="submit" className={style.btn_block}>Sign up<span>➡</span></button>
           </form>
           <div className={style.text_danger}>{login_err}</div>
-          <hr/>
-          {/* <LoginwithSoc typeOfLogin={typeOfLogin} /> */}
+          <LoginwithSoc typeOfLogin={typeOfLogin} />
         </div>
       );
     }

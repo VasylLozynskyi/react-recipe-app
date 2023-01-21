@@ -4,5 +4,23 @@ button{
     font-size: 16px;
     line-height: 24px;
     color: #FFFFFF;
-    height: 60px;
+    height: 50px;
+}
+.wrapper_body{
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #129575;
+    .container{
+        height: 100vh;
+        width: 100vw;
+        background-color: #FFFFFF;
+      }
+      @media (min-width: 600px) {
+        .container{
+          width: 600px;
+          height: 1024px;
+          margin: 0 auto;
+          border-radius: 30px;
+        }
+      }
 }

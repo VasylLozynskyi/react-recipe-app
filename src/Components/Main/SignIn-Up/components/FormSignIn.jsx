@@ -1,6 +1,9 @@
 import React from "react";
 import style from "./forms.module.scss"
-// import LoginwithSoc from "./loginwithSoc";
+import LoginwithSoc from "./loginwithSoc";
+import Users from "../../../../data/Users"
+import {Link} from "react-router-dom";
+import { useState } from "react";
 
   class FormSignIn extends React.Component {
     constructor(props){
@@ -8,11 +11,15 @@ import style from "./forms.module.scss"
       this.state = { 
         email: null, 
         password: null,
+        login: {
+          login: false,
+        },
         errors: {
           email: '',
           password: '',
           login: '', 
         },
+        linkUser: "#",
       };
     }
     handleChange = (event) => {
@@ -25,10 +32,10 @@ import style from "./forms.module.scss"
     }
     handleSubmit = async (event) => {
       event.preventDefault();
-      
       const { name, value } = event.target;
       
-      let form_email = this.state.email, 
+      let form_login = this.state.login,
+          form_email = this.state.email, 
           form_password = this.state.password,
           form_errors = this.state.errors;
       
@@ -52,36 +59,59 @@ import style from "./forms.module.scss"
         has_errors = true;
       }else if (form_password.length < 8){
         form_errors.password = "Password length must be atleast 8 characters";
+        has_errors = true;
       } else if (form_password.length > 15){
         form_errors.password = "Password length must not exceed 15 characters";
+        has_errors = true;
       } else {
         form_errors.password = "";
       }
       // back-end part
       if(!has_errors){
-        // let allUsers = [];
-      }
-      //
+        
+        // user Post to server
 
+        let user = [];
+        user = Users.filter(user => user.email === this.state.email);
+        this.state.linkUser = user[0].id;
+        
+        
+          if (user) {
+          form_login.login = true;
+          this.setState({form_login, [name]: value})
+          }
+       
+        
+        }
+      //
+     
       this.setState({form_errors, [name]: value})
-      
+    }
+    closeHandler = (e) => {
+      e.target.style.display = "none";
     }
     render() {
       
+      let link = ``;
+      let hidden_Ok = {};
+      let hidden_false = {};
+      if (this.state.login.login){
+        link = `/user/${this.state.linkUser}`;
+        hidden_Ok = { display: "block"};
+      } else if (this.state.errors.email || this.state.errors.password) hidden_false = { display: "block"};
+      
+    
       let email_err = this.state.errors.email ? this.state.errors.email : '';
       let password_err = this.state.errors.password ? this.state.errors.password : '';
       let login_err = this.state.errors.login ? this.state.errors.login : '';
-      
       let email_err_class = this.state.errors.email || this.state.errors.login ?  `${style.is_invalid}` : "";
-
-      console.log(email_err_class);
       let password_err_class = this.state.errors.password || this.state.errors.login ? `${style.is_invalid}` : ``;
-      // const typeOfLogin = [
-      //   "GMAIL",
-      //   "FACEBOOK"
-      // ];
+      const typeOfLogin = [
+        "GMAIL",
+        "FACEBOOK"
+      ];
       return ( // className={}}
-        <div className={style.wrapper_form}>
+        <div className={style.wrapper_form} >
           <form onSubmit={this.handleSubmit}>
             <div className={style.form_group}>
                 <label htmlFor="email">E-mail</label>
@@ -92,11 +122,18 @@ import style from "./forms.module.scss"
                 <div className={style.invalid_feedback}>{password_err}</div>
             </div>
             <div className={style.forgot_pass}><a href='#' onClick={this.forgotPassHandler}>Forgot password?</a></div>
-            <button type="submit" id="submit" className={style.btn_block}>Sign in<span>➡</span></button>
+              <button type="submit" id="submit" className={style.btn_block}>Sign in<span>➡</span></button>
           </form>
           <div className={style.text_danger}>{login_err}</div>
-          <hr/>
-          {/* <LoginwithSoc typeOfLogin={typeOfLogin} />      */}
+          <LoginwithSoc typeOfLogin={typeOfLogin} />  
+          <div style={hidden_Ok} className={style.popup}>
+            Hello
+            <hr/>
+            <Link to = {link}>Go to</Link>
+          </div> 
+          <div style={hidden_false} className={style.popup} onClick={this.closeHandler}>
+            Enter correct email or password
+          </div> 
         </div>
       );
     }

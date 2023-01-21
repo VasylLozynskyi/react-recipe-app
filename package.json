@@ -5,6 +5,8 @@
   "private": true,
   "dependencies": {
     "@icongo/bs": "^1.1.2",
+    "@react-rxjs/core": "^0.10.3",
+    "@react-rxjs/utils": "^0.9.5",
     "@sentry/browser": "^7.31.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -18,11 +20,11 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
-    "react-facebook-login": "^4.1.1",
-    "react-google-login": "^5.2.2",
+    "react-modal-login": "^2.0.7",
     "react-native": "^0.71.0",
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
+    "rxjs": "^7.8.0",
     "sass": "^1.57.1",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"

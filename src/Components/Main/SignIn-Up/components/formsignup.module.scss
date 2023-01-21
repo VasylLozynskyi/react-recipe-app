@@ -1,6 +1,6 @@
 .wrapper_form{
     position: relative;
-    
+    text-align: center;
     .form_group{
         font-family: 'Poppins-Ragular';
         label{
@@ -15,7 +15,7 @@
         }
         input{
             width: 315px;
-            height: 55px;
+            height: 40px;
             border: 1.5px solid #D9D9D9;
             border-radius: 10px;
             padding-left: 20px;
@@ -37,8 +37,7 @@
     .labelcheckade {
         display: block;
         position: relative;
-        padding-left: 25px;
-        margin: 12px 0 12px 0;
+        margin: 12px 0;
         cursor: pointer;
         font-size: 22px;
         -webkit-user-select: none;
@@ -90,7 +89,7 @@
       .checkmark {
         position: absolute;
         top: 0;
-        left: 0;
+        margin-left: -20px;
         height: 17px;
         width: 17px;
         border: 1px solid #FF9C00;
@@ -106,10 +105,10 @@
       }
      
 
-    button{
-        margin: 30px 0;
+    .btn_block{
+        margin: 10px 0;
         width: 315px;
-        height: 60px;
+        height: 50px;
         span{
             margin-left: 50px;
         }
