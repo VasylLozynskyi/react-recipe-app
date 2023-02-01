@@ -1,0 +1,38 @@
+header{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 10px 0 10px;
+    .userinfo_section{
+        .userinfo_flex{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            img{
+                width: 30px;
+                height: 40px;
+                border-radius: 50%;
+            }
+        }
+        p{
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 16px;
+            color: #A9A9A9;
+        }
+    }
+    .nav_section{
+        .nav_flex{
+            display: flex;
+            gap: 10px;
+            a{
+                color: #129575;
+                &:hover{
+                    transition: 1s;
+                    color: #0b6d54;
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
+}

@@ -15,6 +15,7 @@ export const Recipes = [
     {
         id: "12345",
         idUser: "r3Pr76",
+        authorName: "Nik",
         title: "Spicy chicken burger with French fries",
         timeAdd: "Newest",
         recipe: {
@@ -44,6 +45,7 @@ export const Recipes = [
     {
         id: "12458",
         idUser: "r3Pr76",
+        authorName: "Nik",
         title: "Classic Greek Salad",
         timeAdd: "Newest",
         recipe: {
@@ -73,6 +75,7 @@ export const Recipes = [
     {
         id: "85345",
         idUser: "r3Pr77",
+        authorName: "Nik",
         title: "Crunchy Nut Coleslaw",
         timeAdd: "Oldest",
         recipe: {
@@ -102,6 +105,7 @@ export const Recipes = [
     {
         id: "98345",
         idUser: "r3Pr78",
+        authorName: "Nik",
         title: "Shrimp Chicken Andouille Sausage Jambalaya",
         timeAdd: "Oldest",
         recipe: {
@@ -119,7 +123,7 @@ export const Recipes = [
                 "Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur?",
             ],
         },
-        img: [ img31, img32],
+        img: [img31, img32],
         time : "10",
         category: "Asian",
         rating: {
@@ -131,6 +135,7 @@ export const Recipes = [
     {
         id: "51345",
         idUser: "r38954",
+        authorName: "Nik",
         title: "Barbecue Chicken Jollof Rice",
         timeAdd: "Oldest",
         recipe: {
@@ -160,6 +165,7 @@ export const Recipes = [
     {
         id: "12312",
         idUser: "568r76",
+        authorName: "Nik",
         title: "Portuguese Piri Piri Chicken",
         timeAdd: "Popularity",
         recipe: {
@@ -188,6 +194,7 @@ export const Recipes = [
     },   {
         id: "55345",
         idUser: "r3Pr76",
+        authorName: "Nik",
         title: "",
         timeAdd: "Popularity",
         recipe: {
@@ -209,8 +216,8 @@ export const Recipes = [
         time : "20",
         category: "",
         rating: {
-            rate: "",
-            count: "",
+            rate: "5",
+            count: "20",
         },
         reviews: 13000,
     },

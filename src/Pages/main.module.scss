@@ -1,0 +1,26 @@
+button{
+    background: #129575;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #FFFFFF;
+    height: 50px;
+    &:hover{
+        transition: 1s;
+        background: #0b6d54;
+    }
+}
+.wrapper_body{
+    min-height: 100vh;
+    width: 100vw;
+    background-color: #129575;
+    .container{
+        height: 100vh;
+        width: 100vw;
+        background-color: #FFFFFF;
+        @media (min-width: 768px) {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+    }
+}

@@ -9,4 +9,3 @@ export const filterTime = [
 export const rateButton = [
     5, 4, 3, 2, 1
 ]
-

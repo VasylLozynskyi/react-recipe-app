@@ -1,0 +1,32 @@
+.wrapper_SignIn{
+    padding: 30px;
+    position: relative;
+    height: 100%;
+    .headerSignIn{
+        margin-bottom: 5%;
+        h2{
+            font-size: 30px;
+            line-height: 45px;
+        }
+        p{
+            font-family: "Poppins-Ragular";
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 30px;
+        }
+    }
+    .blockBtnSignUp{
+        text-align: center;
+        margin-top: 80px;
+        .absolPosition{
+            margin: 10px;
+            a{
+                color: #129575;
+                &:hover{
+                    transition: 1s;
+                    color: #0b6d54;
+                }
+            }
+        }
+    }
+}
