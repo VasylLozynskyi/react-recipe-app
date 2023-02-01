@@ -1,17 +1,22 @@
 {
   "files": {
-    "main.css": "/react-recipe-app/static/css/main.a436645e.css",
-    "main.js": "/react-recipe-app/static/js/main.2acc45bf.js",
+    "main.css": "/react-recipe-app/static/css/main.eaaed945.css",
+    "main.js": "/react-recipe-app/static/js/main.f9991ad5.js",
     "static/media/background__firstPage.png": "/react-recipe-app/static/media/background__firstPage.c211bbc14a0f5db45742.png",
     "static/media/Poppins-Regular.ttf": "/react-recipe-app/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
     "static/media/Poppins-Bold.ttf": "/react-recipe-app/static/media/Poppins-Bold.cdb29a5d7ccf57ff05a3.ttf",
+    "static/media/img02.png": "/react-recipe-app/static/media/img02.f75d9faf8200c1228a54.png",
+    "static/media/img01.png": "/react-recipe-app/static/media/img01.ab7dde5d6b063b1f1203.png",
+    "static/media/img12.png": "/react-recipe-app/static/media/img12.e9ac10d4825157578ab4.png",
+    "static/media/img11.png": "/react-recipe-app/static/media/img11.7279e9b302bc82e8e916.png",
+    "static/media/img21.png": "/react-recipe-app/static/media/img21.684d45b23ac17a381440.png",
     "static/media/facebook.svg": "/react-recipe-app/static/media/facebook.2f84393e7ac83e1da3203d951b841784.svg",
     "index.html": "/react-recipe-app/index.html",
-    "main.a436645e.css.map": "/react-recipe-app/static/css/main.a436645e.css.map",
-    "main.2acc45bf.js.map": "/react-recipe-app/static/js/main.2acc45bf.js.map"
+    "main.eaaed945.css.map": "/react-recipe-app/static/css/main.eaaed945.css.map",
+    "main.f9991ad5.js.map": "/react-recipe-app/static/js/main.f9991ad5.js.map"
   },
   "entrypoints": [
-    "static/css/main.a436645e.css",
-    "static/js/main.2acc45bf.js"
+    "static/css/main.eaaed945.css",
+    "static/js/main.f9991ad5.js"
   ]
 }
