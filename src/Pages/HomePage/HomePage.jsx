@@ -3,7 +3,6 @@ import style from "./homepage.module.scss"
 import filter_icon from "../../assets/images/UserHomePage/Filter.png"
 
 import {Categories, filterTime , rateButton} from "../../data/data"
-import { Recipes } from "../../data/Recipes";
 import { massFilter } from "../../Components/utills/functions";
 
 import { CardRecipeHomePage } from "./components/CardRecipeHomePage";
@@ -12,14 +11,35 @@ import { ButtonTime } from "./components/ButtonTime";
 import { ButtonRate } from "./components/ButtonRate";
 import { ButtonCategory } from "./components/ButtonCategory";
 import { NewRecipes } from "./components/NewRecipes";
+import { useEffect } from "react";
+import { db } from "../../Components/utills/firebase";
+import { onValue, ref } from "firebase/database";
 
 export const HomePage = (props) => {
     const [popup, setPopup]=useState({ display: "none"});
+    const [allRecipes, setAllRecipes]=useState([]);
     // const [category, setCategory] = useState("");
-    const [recipes, setRecipes] = useState(Recipes);
+    const [recipes, setRecipes] = useState(allRecipes);
     
+    useEffect(() => {
+        if (props.user.uid) {
+            const query = ref(db, `recipes/`);
+            return onValue(query, (snapshot) => {
+            const data = snapshot.val();
+            if (snapshot.exists()) {
+                let rec = [];
+                for (let el in data){
+                        rec.push(data[el]);
+                }
+                setRecipes(rec);
+            }
+            });
+        }  
+        }, [])
+
+
     const handleCategory = (e) => {
-        if (e.target.localName === "button") setRecipes(massFilter(Recipes, e.target.textContent));
+        if (e.target.localName === "button") setRecipes(massFilter(allRecipes, e.target.textContent));
     }
 
     const onChackTime = () => {

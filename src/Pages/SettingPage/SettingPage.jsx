@@ -11,22 +11,22 @@ export const SettingPage = (props) => {
     const [file, setFile] = useState({});
     const HandleChangeName = () => {
         if (changeName) {
-            updateUserParam(user.uid, "name", changeName);
+            updateUserParam(user.idUrl, "name", changeName);
         }
     }
     const HandleChangePosition = () => {
         if (changePosition) {
-            updateUserParam(user.uid, "position", changePosition);
+            updateUserParam(user.idUrl, "position", changePosition);
         }
     }
     const HandleChangeAbout = () => {
         if (changeAbout) {
-            updateUserParam(user.uid, "about", changeAbout);
+            updateUserParam(user.idUrl, "about", changeAbout);
         }
     }
     const HandleChangeAvatar = () => {
         if (file) {
-            updateUserParam(user.uid, "iconAvatar", file);
+            updateUserParam(user.idUrl, "iconAvatar", file);
         }
     }
     return (

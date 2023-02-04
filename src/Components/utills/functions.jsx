@@ -4,11 +4,12 @@ import { ref as sRef, uploadBytesResumable, getDownloadURL} from "firebase/stora
 import iconAvatar from "../../assets/images/UserHomePage/avatars/boy_bang.png"
 
 export const createUserProfile = (user) => {
+  const random = Math.floor(Math.random() * 9999);
     if (user) {
-      set(ref(db, `users/`+user.uid),
+      set(ref(db, `users/`+random),
                       {
                           name: "Name",
-                          idUrl: Math.floor(Math.random() * 9999),
+                          idUrl: random,
                           iconAvatar: iconAvatar,
                           uid: user.uid,
                           email: user.email,
@@ -27,7 +28,7 @@ export const createUserProfile = (user) => {
 export const updateUserParam = (uid, param, value) => {
   
   if (param === "iconAvatar"){
-    const storageRef = sRef(dbStorage, `/files/${uid}/`)
+    const storageRef = sRef(dbStorage, `/files/users/${uid}/`)
     const uploadTask = uploadBytesResumable(storageRef, value);
     uploadTask.on( "state_changed",
             (snapshot) => {        
@@ -43,6 +44,14 @@ export const updateUserParam = (uid, param, value) => {
             });
             });
         
+    } else if (param === "name"){
+      set(ref(db, `users/`+ uid +`/` + param),
+      value
+     ).then(() => {console.log("user add to base")})
+      .catch((error) => {console.log("there was an error, details: " + error)});
+
+  // change name in recipes
+
     } else if (uid) {
   set(ref(db, `users/`+ uid +`/` + param),
                      value
@@ -57,12 +66,11 @@ const newDate =() => {
 } 
 
 export const createRecipe = (recipe, user, file) => {
-  let URL = "";
     // if (!file) {
     //     alert("Please choose a file first!")
     // } 
-     if (file) {
-    const storageRef = sRef(dbStorage, `/files/${recipe.id}/${recipe.id + file.name}`)
+     if (file && recipe && user) {
+    const storageRef = sRef(dbStorage, `/files/${recipe.id}/${file.name}`)
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on( "state_changed",
             (snapshot) => {        
@@ -71,36 +79,34 @@ export const createRecipe = (recipe, user, file) => {
             () => {
             // download url
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            URL = url;
+              set(ref(db, `recipes/`+recipe.id),
+                              {
+                                id: recipe.id,
+                                idUser: user.idUrl,
+                                authorName: user.name,
+                                authorAvatar: user.iconAvatar,
+                                title: recipe.title,
+                                timeAdd: newDate(),
+                                recipe: {
+                                  ingradients: recipe.recipe.ingradients,
+                                  procedure: recipe.recipe.procedure,
+                                },
+                                img: url,
+                                time: recipe.time,
+                                category: recipe.category,
+                                rating: {
+                                  rate: 0,
+                                  count: 0,
+                                },
+                                reviews: 0,
+                                responds: "",
+                              }).then(() => {console.log("user add to base")})
+                              .catch((error) => {console.log("there was an error, details: " + error)});
             });
             }
             ); 
     }
-  if (recipe && user) {
-    set(ref(db, `recipes/`+recipe.id),
-                    {
-                      id: recipe.id,
-                      idUser: user.uid,
-                      authorName: user.name,
-                      authorAvatar: user.iconAvatar,
-                      title: recipe.title,
-                      timeAdd: newDate(),
-                      recipe: {
-                        ingradients: recipe.ingradients,
-                        procedure: recipe.procedure,
-                      },
-                      img: URL,
-                      time: recipe.time,
-                      category: recipe.category,
-                      rating: {
-                        rate: 0,
-                        count: 0,
-                      },
-                      reviews: 0,
-                      responds: "",
-                    }).then(() => {console.log("user add to base")})
-                    .catch((error) => {console.log("there was an error, details: " + error)});
-  }
+  
 }
 
 

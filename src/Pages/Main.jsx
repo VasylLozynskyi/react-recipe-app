@@ -16,12 +16,17 @@ const Main = () => {
     const [userData, setUserData]= useState({});
 
     useEffect(() => {
-        const query = ref(db, `users/` + user.uid);
+        const query = ref(db, `users/`);
         return onValue(query, (snapshot) => {
           const data = snapshot.val();
           if (snapshot.exists()) {
              // eslint-disable-next-line
-             setUserData(data);
+            for (let us in data){
+                if (data[us].uid === user.uid ){
+                setUserData(data[us]);
+                }
+            }
+            
           }
         });
     }, [user]);

@@ -7,7 +7,7 @@ export const CardRecipeHomePage = (props) => {
     return (
         <Link to={`/react-recipe-app/recipes/${props.data.id}`} className={style.card_container_homepage}>
             <div className={style.img_product}>
-                <img src={props.data.img[0]} alt="" />
+                <img src={props.data.img} alt="" />
             </div>
              <h2>{props.data.title}</h2>
             <div className={style.recipe_card}>

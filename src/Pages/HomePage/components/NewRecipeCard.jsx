@@ -1,6 +1,7 @@
 import style from "./newrecipecard.module.scss"
 import timer from "../../../assets/images/timer.png"
 import star from "../../../assets/images/star.png"
+import { Link } from "react-router-dom"
 
 export const NewRecipeCard = (props) => {
     return (
@@ -17,7 +18,10 @@ export const NewRecipeCard = (props) => {
                 <div className={style.card_info}>
                     <div className={style._author}>
                         <img src="" alt="" />
-                        <p>By {props.data.authorName}</p>
+                        <Link to={`/react-recipe-app/profile/${props.data.idUser}`}>
+                            <p>By {props.data.authorName}</p>
+                        </Link>
+                        
                     </div>
                     <div className={style._time}>
                         <img src={timer} alt="timer_icon" />
