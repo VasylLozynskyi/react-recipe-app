@@ -1,5 +1,5 @@
 import { db, dbStorage } from "./firebase";
-import { ref, set } from "firebase/database";
+import { child, get, ref, set } from "firebase/database";
 import { ref as sRef, uploadBytesResumable, getDownloadURL} from "firebase/storage"
 import iconAvatar from "../../assets/images/UserHomePage/avatars/boy_bang.png"
 
@@ -13,7 +13,6 @@ export const createUserProfile = (user) => {
                           iconAvatar: iconAvatar,
                           uid: user.uid,
                           email: user.email,
-                          responds: "",
                           countRecipes: 0,
                           followers: 0,
                           following: 0,
@@ -25,10 +24,9 @@ export const createUserProfile = (user) => {
     }
   }
 
-export const updateUserParam = (uid, param, value) => {
-  
+export const updateUserParam = (id, param, value) => {
   if (param === "iconAvatar"){
-    const storageRef = sRef(dbStorage, `/files/users/${uid}/`)
+    const storageRef = sRef(dbStorage, `/files/users/${id}/`)
     const uploadTask = uploadBytesResumable(storageRef, value);
     uploadTask.on( "state_changed",
             (snapshot) => {        
@@ -37,26 +35,38 @@ export const updateUserParam = (uid, param, value) => {
             () => {
             // download url
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          set(ref(db, `users/`+ uid +`/` + param),
+          set(ref(db, `users/`+ id +`/` + param),
               url
              ).then(() => {console.log("user add to base")})
               .catch((error) => {console.log("there was an error, details: " + error)});
             });
             });
-        
-    } else if (param === "name"){
-      set(ref(db, `users/`+ uid +`/` + param),
-      value
-     ).then(() => {console.log("user add to base")})
-      .catch((error) => {console.log("there was an error, details: " + error)});
-
-  // change name in recipes
-
-    } else if (uid) {
-  set(ref(db, `users/`+ uid +`/` + param),
+    } else if (id) {
+  set(ref(db, `users/`+ id +`/` + param),
                      value
-                    ).then(() => {console.log("user add to base")})
+                    ).then(() => {})
                      .catch((error) => {console.log("there was an error, details: " + error)});
+    }
+
+  if (param === "name"){
+    const dbRef = ref(db);
+    get(child(dbRef, `/recipes`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        let datas=snapshot.val();
+        for (let el in datas){
+          if (datas[el].idUser === id) {
+            set(ref(db, `recipes/`+ datas[el].id +`/authorName`),
+                     value
+                    ).then(() => {})
+                     .catch((error) => {console.log("there was an error, details: " + error)});
+          }
+        }
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
     }
 }  
 
@@ -88,7 +98,7 @@ export const createRecipe = (recipe, user, file) => {
                                 title: recipe.title,
                                 timeAdd: newDate(),
                                 recipe: {
-                                  ingradients: recipe.recipe.ingradients,
+                                  ingredients: recipe.recipe.ingredients,
                                   procedure: recipe.recipe.procedure,
                                 },
                                 img: url,
@@ -99,7 +109,6 @@ export const createRecipe = (recipe, user, file) => {
                                   count: 0,
                                 },
                                 reviews: 0,
-                                responds: "",
                               }).then(() => {console.log("user add to base")})
                               .catch((error) => {console.log("there was an error, details: " + error)});
             });
@@ -109,23 +118,43 @@ export const createRecipe = (recipe, user, file) => {
   
 }
 
-
-
-// export const getUserData = (user) => {
-//   let a = {};
-//   if (user) {
-//     const query = ref(db, `users/` + user.uid);
-//       return onValue(query, (snapshot) => {
-//       const data = snapshot.val();
-//       if (snapshot.exists()) {
-//         a= data;
-//       }
-//     });
-// }
-// return a;
-// }
-
 export const massFilter = (mass, index) => {
   if (index === "All") return mass;
   return mass.filter(el => el.category === index)
+}
+
+export const addFollower = (id, param, user) => {
+  if (id){
+    const dbRef = ref(db);
+    get(child(dbRef, `/users/${id}`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        let datas=snapshot.val();
+        let ckeck = true;
+        for (let us in datas.usersFollowers){
+          if (datas.usersFollowers[us] === user.idUrl) {
+            ckeck = false;
+            break;
+          }
+        }
+        if (ckeck){
+              set(ref(db, `users/`+ id +`/` + param),
+              +datas.followers + 1
+            ).then(() => {})
+            .catch((error) => {console.log("there was an error, details: " + error)});
+            set(ref(db, `users/`+ id +`/usersFollowers/` + user.idUrl),
+            user.idUrl
+          ).then(() => {})
+          .catch((error) => {console.log("there was an error, details: " + error)});
+          set(ref(db, `users/`+ user.idUrl +`/following`),
+                     +user.following + 1
+                    ).then(() => {})
+                     .catch((error) => {console.log("there was an error, details: " + error)});
+        }
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+  }
 }

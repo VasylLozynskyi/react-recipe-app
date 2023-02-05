@@ -18,7 +18,7 @@ export const HomeRouter = (props) => {
             <Route path="home" element={<HomePage user={props.user} />}  />
             <Route path="recipes" element={<Recipes />}  />
             <Route path="profile/:id" element={<ProfilePage user={props.user} />}  />
-            <Route path="recipes/:id" element={<RecipePage />}  />
+            <Route path="recipes/:id" element={<RecipePage user={props.user}/>}  />
             <Route path="profile/add_recipe" element={<CreateRecipe user={props.user} />}  />
             <Route path="profile/:id/settings" element={<SettingPage user={props.user} />}  />
         </Routes>

@@ -22,6 +22,7 @@ export const CreateRecipe = (props) => {
     const [invalidSubmit, setInvalidSubmit]=useState({})
     const navigate = useNavigate();
     const invalid_style = {border: "1px solid red"};
+    const valid_style = {border: "1px solid gray"};
     // handle input change ingradient
     const handleInputChange = (e, index) => {
       const { name, value } = e.target;
@@ -63,6 +64,13 @@ export const CreateRecipe = (props) => {
 
     const handleChange = (e) => {
         if (e.target.id === "title") setTitle(e.target.value);
+        if (title.length >= 29) {
+            setErr_Title("You can not write more then 30 letters");
+            setInvalid_title(invalid_style);
+        } else {
+            setErr_Title("");
+            setInvalid_title(valid_style);
+        }
         if (e.target.id === "category") setCategory(e.target.value);
         if (e.target.id === "time") setTime(e.target.value);
     }
@@ -73,7 +81,7 @@ export const CreateRecipe = (props) => {
             authorName: user.name,
             title: title,
             recipe: {
-                ingradients: inputList,
+                ingredients: inputList,
                 procedure: procedureList,
             },
             time : time,
@@ -87,22 +95,20 @@ export const CreateRecipe = (props) => {
         if(!title || title.length === 0) {
             setErr_Title("field Recipe name must not be empty"); 
             setInvalid_title(invalid_style);
-        } else {setErr_Title(""); setInvalid_title({border: "1px solid gray"})};
+        } else {setErr_Title(""); setInvalid_title(valid_style)};
         if (!time) {
             setErr_Time("field time to prepare must not be empty");
             setInvalid_time(invalid_style);
-        } else {setErr_Time(""); setInvalid_time({border: "1px solid gray"}); } 
+        } else {setErr_Time(""); setInvalid_time(valid_style); } 
         if (!file.name) {
             setErr_File("You must choose a photo file");
             setInvalid_file(invalid_style);
-        } else {setErr_File("");  setInvalid_file({border: "1px solid gray"});}
-        if (!err_Title) console.dir(err_Title);
+        } else {setErr_File("");  setInvalid_file(valid_style);}
         
         if (!err_Title && !err_Time && !err_File && user) {
             createRecipe(newRecipe(), props.user, file)
-            updateUserParam(user.uid, "countRecipes", +user.countRecipes+1)
+            updateUserParam(user.idUrl, "countRecipes", +user.countRecipes+1)
             navigate(`/react-recipe-app/profile/${user.idUrl}`)
-            
             setInvalidSubmit({border: "none"});
         } else setInvalidSubmit(invalid_style);
     }
@@ -113,7 +119,7 @@ export const CreateRecipe = (props) => {
             <form onSubmit={handleSubmit}>
                 <div className={style.section}>
                     <label htmlFor="title">Recipe name</label>
-                    <input type="text" name="title" id="title" style={invalid_title} onChange={handleChange}/>
+                    <input type="text" name="title" id="title" style={invalid_title} onChange={handleChange} maxLength="30"/>
                     <p className={style.invalid_value}>{err_Title}</p>
                 </div>
                 <div className={style.section}>
@@ -128,15 +134,15 @@ export const CreateRecipe = (props) => {
                     <p className={style.invalid_value}>{err_Time}</p>
                 </div>
                 <div className={style.section}>
-                    <label htmlFor="ingradients">Ingradients</label>
+                    <label htmlFor="ingredients">Ingredients</label>
                     {inputList.map((x, i) => {
                     return (
                     <div key={i} className={style.ingradient_name}>
                         <input
                             type="text"
-                            name="ingradient"
-                                placeholder="Enter ingradient"
-                            value={x.ingradient || ""}
+                            name="ingredient"
+                                placeholder="Enter ingredient"
+                            value={x.ingredient || ""}
                             onChange={e => handleInputChange(e, i)}
                         />
                         <input

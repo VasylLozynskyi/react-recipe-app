@@ -1,9 +1,12 @@
+.hidden{
+    width: 800px;
+    overflow: auto;
+}
 .newrecipes_section{
+    max-width: 1000px;
     display: flex;
-    flex-wrap: wrap;
+    overflow: hidden;
     gap: 20px;
     height: 130px;
-    overflow: auto;
-   
     margin: 20px;
 }

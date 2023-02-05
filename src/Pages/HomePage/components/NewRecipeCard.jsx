@@ -7,7 +7,7 @@ export const NewRecipeCard = (props) => {
     return (
         <div className={style.newrecipecard_container}>
             <div className={style.img}>
-                <img src={props.data.img[0]} alt="" />
+                <img src={props.data.img} alt="" />
             </div>
             <div className={style.card_section}>
                 <h3>{props.data.title}</h3>

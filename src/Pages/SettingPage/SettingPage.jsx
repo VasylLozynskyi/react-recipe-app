@@ -41,7 +41,7 @@ export const SettingPage = (props) => {
                 <button onClick={HandleChangePosition}>Change</button>
            </div>
            <div className={style.change}> About
-                <textarea type="text" id="about" name="about" placeholder={changeAbout} maxlength="50" onChange={(e) =>    setChangeAbout(e.target.value)} />
+                <textarea type="text" id="about" name="about" placeholder={changeAbout} maxLength="50" onChange={(e) =>    setChangeAbout(e.target.value)} />
                 <button onClick={HandleChangeAbout}>Change</button>
            </div>
            <div className={style.photo}>

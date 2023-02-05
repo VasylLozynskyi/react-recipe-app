@@ -19,7 +19,7 @@ export const HomePage = (props) => {
     const [popup, setPopup]=useState({ display: "none"});
     const [allRecipes, setAllRecipes]=useState([]);
     // const [category, setCategory] = useState("");
-    const [recipes, setRecipes] = useState(allRecipes);
+    const [recipes, setRecipes] = useState([]);
     
     useEffect(() => {
         if (props.user.uid) {
@@ -31,6 +31,7 @@ export const HomePage = (props) => {
                 for (let el in data){
                         rec.push(data[el]);
                 }
+                setAllRecipes(rec);
                 setRecipes(rec);
             }
             });
@@ -64,6 +65,8 @@ export const HomePage = (props) => {
     }
 
     let recipes_user = recipes ? recipes.map(card => <CardRecipeHomePage key={card.id} data = {card}/>) : "";
+    let newRecipes = recipes ? recipes.sort((a,b) => Date.parse(a.timeAdd) - Date.parse(b.timeAdd)).slice(0, 3) : "";
+    
     let buttons_time = filterTime ? filterTime.map(card => <ButtonTime onClick = {onChackTime} key={card} data = {card}/>): "";
     let buttons_rate = rateButton ? rateButton.map(card => <ButtonRate onClick = {onChackRate} key={card} data = {card}/>): "";
     let buttons_category = Categories ? Categories.map(card => <ButtonCategory onClick = {onChackCategory} key= {card} data = {card}/>) : ""; 
@@ -85,7 +88,10 @@ export const HomePage = (props) => {
                 </div>
                 <div className={style.new_recipes_section}>
                     <h2>New Recipes</h2>
-                    <NewRecipes newRecipes={recipes} />
+                    <div className={style.hidden_newrecipe_section}>
+                        <NewRecipes newRecipes={newRecipes} />
+                    </div>
+                   
                 </div>
                 <div style={popup} className={style.popup_filter} onClick={hidePopuphandler} close='false'>
                     <div className={style.popup_container_filter}>
