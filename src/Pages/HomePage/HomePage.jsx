@@ -15,10 +15,12 @@ import { useEffect } from "react";
 import { db } from "../../Components/utills/firebase";
 import { onValue, ref } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "../../Components/components/loading/Loading";
 
 export const HomePage = (props) => {
     const [popup, setPopup]=useState({ display: "none"});
     const [allRecipes, setAllRecipes]=useState([]);
+    const [showLoading, setShowLoading] = useState(true);
     // const [category, setCategory] = useState("");
     const [recipes, setRecipes] = useState([]);
     const [search, setSearch] = useState("");
@@ -72,14 +74,24 @@ export const HomePage = (props) => {
         props.onSearch(search);
         navigate(`/react-recipe-app/search`);
     }
-    let recipes_user = recipes ? recipes.map(card => <CardRecipeHomePage key={card.id} data = {card}/>) : "";
+
+    useEffect(()=> {
+        if (recipes.length === 0) {
+            setTimeout(() => {
+                setShowLoading(false);
+              }, 4000);
+        }
+       
+        }, [recipes]);
+    let recipes_user = recipes.length === 0 ? (showLoading ? <Loading /> : "Recipes does not exist") : recipes.map(card => <CardRecipeHomePage key={card.id} data = {card}/>);
     let newRecipes = recipes ? recipes.sort((a,b) => Date.parse(b.timeAdd) - Date.parse(a.timeAdd)).slice(0, 3) : "";
     
     let buttons_time = filterTime ? filterTime.map(card => <ButtonTime onClick = {onChackTime} key={card} data = {card}/>): "";
     let buttons_rate = rateButton ? rateButton.map(card => <ButtonRate onClick = {onChackRate} key={card} data = {card}/>): "";
     let buttons_category = Categories ? Categories.map(card => <ButtonCategory onClick = {onChackCategory} key= {card} data = {card}/>) : ""; 
-        return(
-            <div className={style.wrapper_UserHomePage}>
+
+return(
+       <div className={style.wrapper_UserHomePage}>
                 <section className={style.search_section}>
                     <input type="text" placeholder="Search recipe" onChange={handleSearch} />
                     <button onClick={onSearch}>Search</button>
@@ -91,16 +103,15 @@ export const HomePage = (props) => {
                     {Categories.map(btn => <ButtonCategories key= {btn} category = {btn}/>)}
                 </div>
                 <div className={style.recipes_home_container}>
-                    <div className={style.carousel_recipes_user}>
-                        {recipes_user}
+                <div className={style.carousel_recipes_user}>
+                      {recipes_user}
                     </div>
                 </div>
                 <div className={style.new_recipes_section}>
                     <h2>New Recipes</h2>
                     <div className={style.hidden_newrecipe_section}>
-                        <NewRecipes newRecipes={newRecipes} />
+                        {newRecipes.length === 0 ? (showLoading ? <Loading /> : "Recipes does not exist") : newRecipes.length === 0 ? "Recipes not exist" : <NewRecipes newRecipes={newRecipes} />}
                     </div>
-                   
                 </div>
                 <div style={popup} className={style.popup_filter} onClick={hidePopuphandler} close='false'>
                     <div className={style.popup_container_filter}>

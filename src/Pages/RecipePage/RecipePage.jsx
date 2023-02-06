@@ -42,6 +42,7 @@ export const RecipePage = (props) => {
     }, [id]);
 
     const handleFollow = () => {
+        
         addFollower(recipe.idUser, "followers", props.user)
     }
 

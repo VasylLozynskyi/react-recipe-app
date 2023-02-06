@@ -133,10 +133,11 @@ export const addFollower = (id, param, user) => {
         for (let us in datas.usersFollowers){
           if (datas.usersFollowers[us] === user.idUrl) {
             ckeck = false;
+            alert(`You olso had followed for ${datas.name}`)
             break;
           }
         }
-        if (ckeck){
+        if (ckeck){                                              
               set(ref(db, `users/`+ id +`/` + param),
               +datas.followers + 1
             ).then(() => {})
@@ -147,6 +148,10 @@ export const addFollower = (id, param, user) => {
           .catch((error) => {console.log("there was an error, details: " + error)});
           set(ref(db, `users/`+ user.idUrl +`/following`),
                      +user.following + 1
+                    ).then(() => {})
+                     .catch((error) => {console.log("there was an error, details: " + error)});
+          set(ref(db, `users/`+ user.idUrl +`/usersFollowing/` + datas.idUrl),
+                      datas.idUrl
                     ).then(() => {})
                      .catch((error) => {console.log("there was an error, details: " + error)});
         }

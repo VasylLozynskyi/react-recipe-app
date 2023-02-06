@@ -10,8 +10,6 @@ import style from "./profilepage.module.scss"
 
 export const ProfilePage = (props) => {
     const {id} = useParams();
-
-    
     const [btn_tabs, setBtn_tabs] = useState("Recipes");
     const [recipes, setRecipes] = useState([]);
     const [currentUser, setCurrentUser]=useState({})
@@ -49,7 +47,8 @@ export const ProfilePage = (props) => {
             setRecipes(user.notifications)
         }
     }, [btn_tabs, user.notifications, user.idUrl, user.uid])
-    const tabs = recipes.length > 0 ? recipes.map(el => <RecipeCardUserProfile key={el.id}  recipe={el}/>) : "section is in progress";
+
+    const tabs = recipes.length > 0 ? recipes.map(el => <RecipeCardUserProfile key={el.id}  recipe={el}/>) : "it's empry";
     
     if (props.user.idUrl && user.name !== "Guest") { 
     return (

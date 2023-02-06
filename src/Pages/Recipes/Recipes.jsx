@@ -7,6 +7,7 @@ import style from "./recipes.module.scss"
 import { ButtonTime } from "../HomePage/components/ButtonTime";
 import { ButtonRate } from "../HomePage/components/ButtonRate";
 import { ButtonCategory } from "../HomePage/components/ButtonCategory";
+import {Loading} from "../../Components/components/loading/Loading"
 import {Categories, filterTime , rateButton} from "../../data/data"
 
 export const Recipes = () => {
@@ -47,7 +48,7 @@ export const Recipes = () => {
             
         }
 
-        const tabs = recipes.length > 0 ? recipes.map(el => <RecipeCardUserProfile key={el.id}  recipe={el}/>) : "section is in progress";
+        const tabs = recipes.length > 0 ? recipes.map(el => <RecipeCardUserProfile key={el.id}  recipe={el}/>) : <Loading />;
         let buttons_time = filterTime ? filterTime.map(card => <ButtonTime onClick = {onChackTime} key={card} data = {card}/>): "";
         let buttons_rate = rateButton ? rateButton.map(card => <ButtonRate onClick = {onChackRate} key={card} data = {card}/>): "";
         let buttons_category = Categories ? Categories.map(card => <ButtonCategory onClick = {onChackCategory} key= {card} data = {card}/>) : ""; 
@@ -55,9 +56,9 @@ export const Recipes = () => {
         <div className={style.recipes_container}>
             <h2>Recipes</h2>
             <button className={style.recipes_filter} onClick= {filterHandler}>
-                        <img src={filter_icon} alt="filter_png" />
-                        Filter
-                    </button>
+                <img src={filter_icon} alt="filter_png" />
+                Filter
+            </button>
             <div className={style.recipes}>
                 {tabs}
             </div>
