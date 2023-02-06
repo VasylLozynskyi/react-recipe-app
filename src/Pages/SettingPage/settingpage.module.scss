@@ -4,7 +4,22 @@
         text-align: center;
         margin: 20px;
     }
+    .name_section{
+        position: relative;
+        .invalid_value{
+            position: absolute;
+            color: red;
+            font-size: 10px;
+            font-style: italic;
+            font-weight: 300;
+            margin: 40px auto 0 auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+    }
     .change{
+        position: relative;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -40,5 +55,10 @@
             width: 100%;
         }
     }
-   
+    .btn_logout{
+        display: block;
+        margin: 20px auto;
+        height: 30px;
+        padding: 0 40px;
+    }
 }

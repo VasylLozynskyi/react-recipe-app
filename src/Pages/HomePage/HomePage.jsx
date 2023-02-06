@@ -14,13 +14,15 @@ import { NewRecipes } from "./components/NewRecipes";
 import { useEffect } from "react";
 import { db } from "../../Components/utills/firebase";
 import { onValue, ref } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = (props) => {
     const [popup, setPopup]=useState({ display: "none"});
     const [allRecipes, setAllRecipes]=useState([]);
     // const [category, setCategory] = useState("");
     const [recipes, setRecipes] = useState([]);
-    
+    const [search, setSearch] = useState("");
+    const navigate = useNavigate();
     useEffect(() => {
         if (props.user.uid) {
             const query = ref(db, `recipes/`);
@@ -36,7 +38,7 @@ export const HomePage = (props) => {
             }
             });
         }  
-        }, [])
+        }, [props.user.uid])
 
 
     const handleCategory = (e) => {
@@ -63,9 +65,15 @@ export const HomePage = (props) => {
     const onSubmit = () => {
         
     }
-
+    const handleSearch = (e) => {
+        setSearch(e.target.value);
+    }
+    const onSearch = () => {
+        props.onSearch(search);
+        navigate(`/react-recipe-app/search`);
+    }
     let recipes_user = recipes ? recipes.map(card => <CardRecipeHomePage key={card.id} data = {card}/>) : "";
-    let newRecipes = recipes ? recipes.sort((a,b) => Date.parse(a.timeAdd) - Date.parse(b.timeAdd)).slice(0, 3) : "";
+    let newRecipes = recipes ? recipes.sort((a,b) => Date.parse(b.timeAdd) - Date.parse(a.timeAdd)).slice(0, 3) : "";
     
     let buttons_time = filterTime ? filterTime.map(card => <ButtonTime onClick = {onChackTime} key={card} data = {card}/>): "";
     let buttons_rate = rateButton ? rateButton.map(card => <ButtonRate onClick = {onChackRate} key={card} data = {card}/>): "";
@@ -73,7 +81,8 @@ export const HomePage = (props) => {
         return(
             <div className={style.wrapper_UserHomePage}>
                 <section className={style.search_section}>
-                    <input type="text" placeholder="Search recipe" />
+                    <input type="text" placeholder="Search recipe" onChange={handleSearch} />
+                    <button onClick={onSearch}>Search</button>
                     <button onClick= {filterHandler}>
                         <img src={filter_icon} alt="filter_png" />
                     </button>

@@ -1,5 +1,5 @@
 .wrapper_UserHomePage{
-    padding:20px;
+    padding:10px;
     position: relative;
     button{
         height: 25px;
@@ -79,6 +79,7 @@
     .search_section{
       display: flex;
       justify-content: space-between;
+      gap: 5px;
       margin: 30px 0 15px 0;
         input{
             width: 80%;
@@ -94,6 +95,7 @@
             height: 40px;
             padding: 0 10px;
             background-color:  #129575;
+            color: white;
             &:hover{
                 background-color: #0a7a5e;
             }

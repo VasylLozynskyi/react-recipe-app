@@ -6,16 +6,23 @@ import star from "../../assets/images/star.png"
 import timer from "../../assets/images/timer.png"
 import style from "./recipepage.module.scss"
 import { addFollower } from "../../Components/utills/functions";
+import { StarRating } from "../../Components/components/starRating/StarRating";
+import star_icon from "../../assets/images/star_icon.png"
+import update_icon from "../../assets/images/update_icon.png"
+import share_icon from "../../assets/images/share_icon.png"
+import review_icon from "../../assets/images/review_icon.png"
 
 export const RecipePage = (props) => {
+ 
     const [recipe, setRecipe]=useState({})
     const [rate, setRate]=useState("")
     const [timePrepare, setTimePrepare] = useState("")
     const [infoIngredient, setInfoIngredient] = useState(false);
     const [infoProcedure, setInfoProcedure] = useState(false);
     const [reviews, setReviews] = useState(false);
+    const [popup, setPopup]=useState({ display: "none"});
     const {id} = useParams()
-    
+
     useEffect(()=>{
         const dbRef = ref(db);
         get(child(dbRef, `/recipes/${id}`)).then((snapshot) => {
@@ -53,11 +60,22 @@ export const RecipePage = (props) => {
             setInfoProcedure(false);
         }
     }
+
+    const hidePopuphandler = (e) => {
+        if(e.target.attributes[1] && e.target.attributes[1].value){
+            setPopup({ display: "none"})
+        }
+    }
+
+    const moreHandler = () => {
+        setPopup({ display: "flex"})
+    }
+
     return (
         <div className={style.recipe_container}>
-            <div className={style.more}>
-                <button title="more">...</button>
-            </div>
+            { props.user.name !== "Guest" ? <div className={style.more} onClick= {moreHandler}>
+                <button title="more">...</button> 
+            </div> : ""}
             <div className={style.img_section}>
                 <div className={style.img}>
                     <img src={recipe.img} alt="first_image" />
@@ -79,9 +97,9 @@ export const RecipePage = (props) => {
                     </div>
                     <h2>{recipe.authorName}</h2>
                 </Link>
-                <div className={style.right}>
+                { props.user.name !== "Guest" && props.user.idUrl !== recipe.idUser ? <div className={style.right}>
                     <button onClick={handleFollow}>Follow</button>
-                </div>
+                </div> : ""}
             </div>
             <div className={style.info_recipe}>
                 <div className={style.btns_info}>
@@ -116,6 +134,27 @@ export const RecipePage = (props) => {
                     }) : reviews && !recipe.responds ? <div>this recipe don't have reviews</div> : ""}
                 </div>
             </div>
+            <div style={popup} className={style.popup_filter} onClick={hidePopuphandler} close='false'>
+                    <div className={style.popup_container_filter}>
+                        <div>
+                            <img src={update_icon} alt="#" />
+                            <h2>Update Recipe</h2>
+                        </div>
+                        <div>
+                            <img src={star_icon} alt="#" />
+                            <h2>Rate recipe</h2>
+                            <StarRating user={props.user} product={recipe} />
+                        </div>
+                        <div>
+                            <img src={share_icon} alt="#" />
+                            <h2>share</h2>  
+                        </div>
+                        <div>
+                            <img src={review_icon} alt="#" />
+                            <h2>Add review</h2>  
+                        </div>
+                    </div>
+                </div>
         </div>
     )
 }

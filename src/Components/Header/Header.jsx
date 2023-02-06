@@ -16,7 +16,7 @@ export const Header = (props) => {
                     <div className={style.nav_flex}>
                         <Link to={`/react-recipe-app/home`}>Home</Link>
                         <Link to={`/react-recipe-app/recipes`}>Recipes</Link>
-                        <Link to={`/react-recipe-app/profile/${props.user.idUrl}`}>Profile</Link>
+                        { props.user.name === "Guest" ? <Link to={`/react-recipe-app/login`}>Login</Link> : <Link to={`/react-recipe-app/profile/${props.user.idUrl}`}>Profile</Link>}
                     </div>
                 </div>
             </header>

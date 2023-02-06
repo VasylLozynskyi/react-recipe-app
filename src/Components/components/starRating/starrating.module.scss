@@ -1,0 +1,22 @@
+.star_rating{
+    margin: 10px;
+    border: 1px solid #129575;
+    button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 0 5px;
+      }
+      .on {
+        color: #129575;
+      }
+      .off {
+        color: #ccc;
+      }
+      & > span{
+        margin-left: 10px;
+        font-size: 11px;
+        color:   #129575;
+      }
+}

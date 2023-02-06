@@ -158,3 +158,23 @@ export const addFollower = (id, param, user) => {
     });
   }
 }
+
+export const setcreateToUserRate = (rate, product, id) => {
+  if (id && product) {
+    set(ref(db, `users/`+ id + "/rates/" + product.id + "/"),
+                    {
+                      productId: product.id,
+                      productRate: rate,
+                    }).then(() => {console.log("rates in userData add to base")})
+                    .catch((error) => {console.log("there was an error, details: " + error)});
+
+    set(ref(db, `recipes/`+ product.id + `/rating/rate`),
+                    ((+product.rating.rate * +product.rating.count) + rate) / (+product.rating.count + 1),
+                  ).then(() => {console.log("respond add to base")})
+                  .catch((error) => {console.log("there was an error, details: " + error)});
+    set(ref(db, `recipes/`+ product.id + `/rating/count`),
+                  (+product.rating.count + 1),
+                ).then(() => {console.log("respond add to base")})
+                .catch((error) => {console.log("there was an error, details: " + error)});
+  }
+}

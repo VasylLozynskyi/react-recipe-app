@@ -8,6 +8,10 @@
     button{
       float: right;
       background: none;
+      border: 1px solid  #129575;
+      height: 30px;
+      padding: 0 10px;
+      display: flex;
       color: black;
       font-size: 30px;
       &:hover{
@@ -146,4 +150,40 @@
       }
     }
   }
+}
+.popup_filter{
+  display: none;
+  position: absolute;
+  top: 0;  
+  left: 0;
+  background-color: #a9a9a9be;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  button{
+      border: 1px solid #129575;
+      height: 25px;
+      padding: 0 10px;
+  }
+  .popup_container_filter{
+    position: absolute;
+    top: 5rem;
+    right: 3rem;
+      min-width: 30%;
+      margin: 30px;
+      background-color: white;
+      border-radius: 30px;
+      padding: 20px;
+      h2{
+          font-weight: 600;
+          font-size: 14px;
+          line-height: 21px;
+          text-align: center;
+          display: inline-block;
+          margin: 0 20px;
+      }
+      & > div{
+          margin: 20px 0;
+      }
+  } 
 }

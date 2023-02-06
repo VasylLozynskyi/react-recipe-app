@@ -49,8 +49,9 @@ export const ProfilePage = (props) => {
             setRecipes(user.notifications)
         }
     }, [btn_tabs, user.notifications, user.idUrl, user.uid])
-    const tabs = recipes.length > 0 ? recipes.map(el => <RecipeCardUserProfile key={el.id}  recipe={el}/>) : "Tags";
-    if (props.user.idUrl) { 
+    const tabs = recipes.length > 0 ? recipes.map(el => <RecipeCardUserProfile key={el.id}  recipe={el}/>) : "section is in progress";
+    
+    if (props.user.idUrl && user.name !== "Guest") { 
     return (
         <div className={style.profile_container}>
             <div className={style._header}>
@@ -86,15 +87,16 @@ export const ProfilePage = (props) => {
                 <h3>{user.about}</h3>
             </div>
             <div className={style.add_recipe}>
-            {user.idUrl === props.user.idUrl ? <Link to={`/react-recipe-app/profile/add_recipe`}><button>Add Recipe</button></Link> : <div></div>}
-                 
+                {user.idUrl === props.user.idUrl ? <Link to={`/react-recipe-app/profile/add_recipe`}><button>Add Recipe</button></Link> : <div></div>} 
             </div>
             {user.idUrl === props.user.idUrl ?  <div className={style.tabs}>
                 <button onClick={() => setBtn_tabs("Recipes")}>Recipes</button>
-                <button onClick={() => setBtn_tabs("Tags")}>Tags</button>
+                <button onClick={() => setBtn_tabs("Tags")}>Follow Users</button>
                 <button onClick={() => setBtn_tabs("Notifications")}>Notifications</button>
-            </div> : <div>Recipes</div>}
-           
+            </div> :  <div className={style.tabs}>
+                        <button>Recipes</button>
+                    </div>
+            }
             <div className={style.profile_tabs_section}>
                 {tabs}
             </div>
