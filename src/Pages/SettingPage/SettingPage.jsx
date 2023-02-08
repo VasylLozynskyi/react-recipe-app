@@ -1,13 +1,15 @@
 import { signOut } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../../Components/utills/firebase";
-import { updateUserParam } from "../../Components/utills/functions";
 import style from "./settingpage.module.scss"
 import {useNavigate} from "react-router-dom";
+import { useSelector } from "react-redux";
+import store from "../../Components/Redux/store/store";
+import { updateAboutUserAction, updateNameAction, updateNewAvatarAction, updatePositionUserAction, userLogout } from "../../Components/Redux/Actions/indexUser";
 
 
-export const SettingPage = (props) => {
-    const user = props.user;
+export const SettingPage = () => {
+    const user = useSelector(state => state.userPage)
     const [changeName, setChangeName] = useState(user.name)
     const [err_Name, setErr_Name] = useState("")
     const [valid_style, setValid_style] = useState({});
@@ -23,29 +25,30 @@ export const SettingPage = (props) => {
             setErr_Name("Name can not be less then 3 letters")
             setValid_style({borderColor: "red"})
         } else if (changeName) {
-            updateUserParam(user.idUrl, "name", changeName);
+            store.dispatch(updateNameAction(changeName))
             setValid_style({borderColor: "gray"})
             setErr_Name("");
         }
     }
     const HandleChangePosition = () => {
         if (changePosition) {
-            updateUserParam(user.idUrl, "position", changePosition);
+            store.dispatch(updatePositionUserAction(changePosition))
         }
     }
     const HandleChangeAbout = () => {
         if (changeAbout) {
-            updateUserParam(user.idUrl, "about", changeAbout);
+            store.dispatch(updateAboutUserAction(changeAbout))
         }
     }
     const HandleChangeAvatar = () => {
         if (file) {
-            updateUserParam(user.idUrl, "iconAvatar", file);
+            store.dispatch(updateNewAvatarAction(file))
         }
     }
     const handleLogout = () => {               
         signOut(auth).then(() => {
         // Sign-out successful.
+            store.dispatch(userLogout())
             navigate("/react-recipe-app");
             console.log("Signed out successfully")
         }).catch((error) => {
@@ -62,7 +65,6 @@ export const SettingPage = (props) => {
                     <button onClick={HandleChangeName}>Change</button>
                     <div className={style.invalid_value}>{err_Name}</div> 
                 </div>
-                
            </div>
            <div className={style.change}> Position
                 <input type="text" id="position" name="position" placeholder={changePosition} onChange={(e) =>    setChangePosition(e.target.value)} />

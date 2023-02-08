@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { db } from "../../Components/utills/firebase";
-import { onValue, ref } from "firebase/database";
+import { useState } from "react";
 import { RecipeCardUserProfile } from "../ProfilePage/components/RecipeCardUserProfile";
 import filter_icon from "../../assets/images/UserHomePage/Filter.png"
 import style from "./recipes.module.scss"
@@ -9,23 +7,11 @@ import { ButtonRate } from "../HomePage/components/ButtonRate";
 import { ButtonCategory } from "../HomePage/components/ButtonCategory";
 import {Loading} from "../../Components/components/loading/Loading"
 import {Categories, filterTime , rateButton} from "../../data/data"
+import { useSelector } from "react-redux";
 
 export const Recipes = () => {
-    const [recipes, setRecipes] = useState([]);
+    const recipes = useSelector(state => state.recipes.all)
     const [popup, setPopup]=useState({ display: "none"});
-    useEffect(() => {
-            const query = ref(db, `recipes/`);
-            return onValue(query, (snapshot) => {
-            const data = snapshot.val();
-            if (snapshot.exists()) {
-                let rec = [];
-                for (let el in data){
-                        rec.push(data[el]);
-                }
-                setRecipes(rec);
-            }
-            }); 
-        }, [])
 
         const onChackTime = () => {
 

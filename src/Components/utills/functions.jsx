@@ -25,23 +25,7 @@ export const createUserProfile = (user) => {
   }
 
 export const updateUserParam = (id, param, value) => {
-  if (param === "iconAvatar"){
-    const storageRef = sRef(dbStorage, `/files/users/${id}/`)
-    const uploadTask = uploadBytesResumable(storageRef, value);
-    uploadTask.on( "state_changed",
-            (snapshot) => {        
-            },
-            (err) => console.log(err),
-            () => {
-            // download url
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          set(ref(db, `users/`+ id +`/` + param),
-              url
-             ).then(() => {console.log("user add to base")})
-              .catch((error) => {console.log("there was an error, details: " + error)});
-            });
-            });
-    } else if (id) {
+    if (id) {
   set(ref(db, `users/`+ id +`/` + param),
                      value
                     ).then(() => {})
@@ -76,9 +60,6 @@ const newDate =() => {
 } 
 
 export const createRecipe = (recipe, user, file) => {
-    // if (!file) {
-    //     alert("Please choose a file first!")
-    // } 
      if (file && recipe && user) {
     const storageRef = sRef(dbStorage, `/files/${recipe.id}/${file.name}`)
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -116,11 +97,6 @@ export const createRecipe = (recipe, user, file) => {
             ); 
     }
   
-}
-
-export const massFilter = (mass, index) => {
-  if (index === "All") return mass;
-  return mass.filter(el => el.category === index)
 }
 
 export const addFollower = (id, param, user) => {

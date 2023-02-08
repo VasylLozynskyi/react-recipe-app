@@ -1,10 +1,7 @@
 import { useState } from "react";
 import style from "./homepage.module.scss"
 import filter_icon from "../../assets/images/UserHomePage/Filter.png"
-
 import {Categories, filterTime , rateButton} from "../../data/data"
-import { massFilter } from "../../Components/utills/functions";
-
 import { CardRecipeHomePage } from "./components/CardRecipeHomePage";
 import { ButtonCategories } from "./components/ButtonCategories";
 import { ButtonTime } from "./components/ButtonTime";
@@ -12,39 +9,28 @@ import { ButtonRate } from "./components/ButtonRate";
 import { ButtonCategory } from "./components/ButtonCategory";
 import { NewRecipes } from "./components/NewRecipes";
 import { useEffect } from "react";
-import { db } from "../../Components/utills/firebase";
-import { onValue, ref } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 import { Loading } from "../../Components/components/loading/Loading";
+import store from "../../Components/Redux/store/store";
+import { filterRecipesAction } from "../../Components/Redux/Actions/indexRecipes";
+import { useSelector } from "react-redux";
 
 export const HomePage = (props) => {
+    const allRecipes = useSelector(state => state.recipes.recipes);
     const [popup, setPopup]=useState({ display: "none"});
-    const [allRecipes, setAllRecipes]=useState([]);
     const [showLoading, setShowLoading] = useState(true);
     // const [category, setCategory] = useState("");
     const [recipes, setRecipes] = useState([]);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
-    useEffect(() => {
-        if (props.user.uid) {
-            const query = ref(db, `recipes/`);
-            return onValue(query, (snapshot) => {
-            const data = snapshot.val();
-            if (snapshot.exists()) {
-                let rec = [];
-                for (let el in data){
-                        rec.push(data[el]);
-                }
-                setAllRecipes(rec);
-                setRecipes(rec);
-            }
-            });
-        }  
-        }, [props.user.uid])
-
+    useEffect(() => { 
+        setRecipes(allRecipes)
+    }, [allRecipes])
 
     const handleCategory = (e) => {
-        if (e.target.localName === "button") setRecipes(massFilter(allRecipes, e.target.textContent));
+        if (e.target.localName === "button") {
+            store.dispatch(filterRecipesAction(e.target.textContent));
+        }
     }
 
     const onChackTime = () => {
@@ -82,8 +68,8 @@ export const HomePage = (props) => {
               }, 4000);
         }
        
-        }, [recipes]);
-    let recipes_user = recipes.length === 0 ? (showLoading ? <Loading /> : "Recipes does not exist") : recipes.map(card => <CardRecipeHomePage key={card.id} data = {card}/>);
+    }, [recipes]);
+    let recipes_user = recipes.length === 0 ? (showLoading ? <Loading /> : "Recipes does not exist") : recipes ? recipes.map(card => <CardRecipeHomePage key={card.id} data = {card}/>) : "";
     let newRecipes = recipes ? recipes.sort((a,b) => Date.parse(b.timeAdd) - Date.parse(a.timeAdd)).slice(0, 3) : "";
     
     let buttons_time = filterTime ? filterTime.map(card => <ButtonTime onClick = {onChackTime} key={card} data = {card}/>): "";

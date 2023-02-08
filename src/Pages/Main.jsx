@@ -6,31 +6,31 @@ import FirstPage from "./FirstPage/FirstPage";
 import {SignIn} from "./SignIn-Up/SignIn/SignIn";
 import {SignUp} from "./SignIn-Up/SignUp/SignUp";
 import { HomeRouter } from "./HomeRouter/HomeRouter";
-import { onValue, ref } from "firebase/database";
-import { db } from "../Components/utills/firebase";
+import { getData, getUserAsUID } from "../Components/utills/api";
+import { setUserAction } from "../Components/Redux/Actions/indexUser";
+import store from "../Components/Redux/store/store";
+import { setRecipesAction } from "../Components/Redux/Actions/indexRecipes";
 
 
 
 const Main = () => {
     const [user, setUser] = useState({});
     const [userData, setUserData]= useState({});
+    useEffect(() => {
+        getData("recipes").then(data => {
+            store.dispatch(setRecipesAction(data))
+        })
+      
+    }, [])
 
     useEffect(() => {
-        const query = ref(db, `users/`);
-        return onValue(query, (snapshot) => {
-          const data = snapshot.val();
-          if (snapshot.exists()) {
-             // eslint-disable-next-line
-            for (let us in data){
-                if (data[us].uid === user.uid ){
-                setUserData(data[us]);
-                }
+        getUserAsUID(user).then(data => {
+            if (data){
+            setUserData(data);
+            store.dispatch(setUserAction(data))
             }
-            
-          }
-        });
+        })
     }, [user]);
-
     const handleUser = (user) => {
         setUser(user)
     }
