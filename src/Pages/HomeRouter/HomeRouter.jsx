@@ -9,6 +9,7 @@ import { SearchPage } from "../SearchPage/SearchPage"
 import { useState } from "react"
 import { Header } from "../../Components/Header/Header"
 import { SettingPage } from "../SettingPage/SettingPage"
+import { SettingRecipePage } from "../SettingRecipePage/SettingRecipePage"
 
 
 export const HomeRouter = (props) => {
@@ -24,10 +25,11 @@ export const HomeRouter = (props) => {
             <Route path="home" element={<HomePage onSearch={onSearch} />}  />
             <Route path="recipes" element={<Recipes />}  />
             <Route path="profile/:id" element={<ProfilePage />}  />
-            <Route path="recipes/:id" element={<RecipePage user={props.user}/>}  />
-            <Route path="profile/add_recipe" element={<CreateRecipe user={props.user} />}  />
+            <Route path="recipes/:id" element={<RecipePage />}  />
+            <Route path="profile/add_recipe" element={<CreateRecipe />}  />
             <Route path="profile/:id/settings" element={<SettingPage />}  />
             <Route path="search" element={<SearchPage searchValue={searchValue} />} />
+            <Route path="recipes/:id/settings" element={<SettingRecipePage />}  />
         </Routes>
         </>
         

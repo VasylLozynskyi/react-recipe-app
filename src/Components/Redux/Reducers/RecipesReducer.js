@@ -1,38 +1,57 @@
-import { ADD_RECIPE_TO_RECIPES, FILTER_RECIPES, GET_USER_RECIPES, SET_STATE_RECIPES } from "../Constants/constants";
+import { ADD_USER_RECIPE, FILTER_RECIPES, GET_USER_RECIPES, SET_STATE_RECIPES, UPDATE_RECIPE_RATING } from "../Constants/constants";
 
-let initialState = [];
+let initialState = {
+  all: [],
+  userRecipes: [],
+  filterRecipes: [],
+};
 
 const recipesReducer = (state = initialState, action) => {
   
     switch (action.type) {
         case SET_STATE_RECIPES:
-            state.recipes = action.recipes;
-            state.all = action.recipes;
-            state.userRecipes = [];
-            return state;
-        case ADD_RECIPE_TO_RECIPES:
-           
-           
-            return state;
+            return { ...state,
+              all: [...action.recipes],
+              filterRecipes: [...action.recipes],
+            }
+        case ADD_USER_RECIPE:
+            return { ...state,
+              all: [...state.all, action.newRecipe],
+              userRecipes: [...state.userRecipes, action.newRecipe],
+              filterRecipes: [...state.all, action.newRecipe],
+            }
         case GET_USER_RECIPES:
-            let copyStatet = [...state.all];
-            state.userRecipes = copyStatet.filter(el => el.idUser === action.idUser)
-            console.log(state.userRecipes);
-            return state;
+            return { ...state,
+              userRecipes: [...state.all.filter(el => el.idUser === +action.idUser)],
+            }
+          case UPDATE_RECIPE_RATING:
+            let mass = [...state.all];
+            let userMass = [...state.userRecipes];
+            let objInUser = userMass.findIndex((obj => obj.id === action.id));
+            if (objInUser != -1){
+              userMass[objInUser].rating.rate = ((+userMass[objInUser].rating.rate * +userMass[objInUser].rating.count) + +action.rate) / (+userMass[objInUser].rating.count + 1);
+              userMass[objInUser].rating.count = +userMass[objInUser].rating.count + 1;
+            }
+            let objIndex = mass.findIndex((obj => obj.id === action.id));
+            mass[objIndex].rating.rate = ((+mass[objIndex].rating.rate * +mass[objIndex].rating.count) + +action.rate) / (+mass[objIndex].rating.count + 1);
+            mass[objIndex].rating.count = +mass[objIndex].rating.count + 1;
+            return { ...state,
+              all: mass,
+              filterRecipes: mass,
+              userRecipes: userMass
+            }
         case FILTER_RECIPES:
           if (action.trigger === "All") {
-            state.recipes = state.all;
-            return state
+            return {...state,
+              filterRecipes: [...state.all]
+            }
           } else { 
-          let copyState = [...state.all];
-           state.recipes = copyState.filter(el => el.category === action.trigger);
-            return state
+            return {...state,
+              filterRecipes: [...state.all.filter(el => el.category === action.trigger)]
+            }
           }
         default:
-            return state;
+            return {...state}
     }
 }
-
-
-
 export default recipesReducer;

@@ -1,15 +1,15 @@
-import { signOut } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../../Components/utills/firebase";
 import style from "./settingpage.module.scss"
 import {useNavigate} from "react-router-dom";
 import { useSelector } from "react-redux";
 import store from "../../Components/Redux/store/store";
 import { updateAboutUserAction, updateNameAction, updateNewAvatarAction, updatePositionUserAction, userLogout } from "../../Components/Redux/Actions/indexUser";
+import { ref as sRef, uploadBytesResumable, getDownloadURL} from "firebase/storage"
+import { dbStorage } from "../../Components/utills/firebase";
 
 
 export const SettingPage = () => {
-    const user = useSelector(state => state.userPage)
+    const user = useSelector(state => state.userPage.user)
     const [changeName, setChangeName] = useState(user.name)
     const [err_Name, setErr_Name] = useState("")
     const [valid_style, setValid_style] = useState({});
@@ -42,18 +42,24 @@ export const SettingPage = () => {
     }
     const HandleChangeAvatar = () => {
         if (file) {
-            store.dispatch(updateNewAvatarAction(file))
+            const storageRef = sRef(dbStorage, `/files/users/${user.idUrl}/`)
+            const uploadTask = uploadBytesResumable(storageRef, file);
+                uploadTask.on( "state_changed",
+                (snapshot) => {        
+                },
+                (err) => console.log(err),
+                () => {
+                // download url
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                    store.dispatch(updateNewAvatarAction(url))
+                });
+                });
+            
         }
     }
     const handleLogout = () => {               
-        signOut(auth).then(() => {
-        // Sign-out successful.
             store.dispatch(userLogout())
             navigate("/react-recipe-app");
-            console.log("Signed out successfully")
-        }).catch((error) => {
-        console.log(error.message);
-        });
     }
     return (
         <div className={style.setting_container}>

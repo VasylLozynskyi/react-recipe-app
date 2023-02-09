@@ -2,6 +2,8 @@ import { db, dbStorage } from "./firebase";
 import { child, get, ref, set } from "firebase/database";
 import { ref as sRef, uploadBytesResumable, getDownloadURL} from "firebase/storage"
 import iconAvatar from "../../assets/images/UserHomePage/avatars/boy_bang.png"
+import store from "../Redux/store/store";
+import { addUserRecipeAction } from "../Redux/Actions/indexRecipes";
 
 export const createUserProfile = (user) => {
   const random = Math.floor(Math.random() * 9999);
@@ -60,43 +62,43 @@ const newDate =() => {
 } 
 
 export const createRecipe = (recipe, user, file) => {
-     if (file && recipe && user) {
-    const storageRef = sRef(dbStorage, `/files/${recipe.id}/${file.name}`)
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on( "state_changed",
-            (snapshot) => {        
+  const storageRef = sRef(dbStorage, `/files/${recipe.id}/${file.name}`)
+  const uploadTask = uploadBytesResumable(storageRef, file);
+  uploadTask.on( "state_changed",
+    (snapshot) => {},
+    (err) => console.log(err),
+    () => {
+    // download url
+    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+      let newRecipe =
+          {
+            id: recipe.id,
+            idUser: user.idUrl,
+            authorName: user.name,
+            authorAvatar: user.iconAvatar,
+            title: recipe.title,
+            timeAdd: newDate(),
+            recipe: {
+              ingredients: recipe.recipe.ingredients,
+              procedure: recipe.recipe.procedure,
             },
-            (err) => console.log(err),
-            () => {
-            // download url
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              set(ref(db, `recipes/`+recipe.id),
-                              {
-                                id: recipe.id,
-                                idUser: user.idUrl,
-                                authorName: user.name,
-                                authorAvatar: user.iconAvatar,
-                                title: recipe.title,
-                                timeAdd: newDate(),
-                                recipe: {
-                                  ingredients: recipe.recipe.ingredients,
-                                  procedure: recipe.recipe.procedure,
-                                },
-                                img: url,
-                                time: recipe.time,
-                                category: recipe.category,
-                                rating: {
-                                  rate: 0,
-                                  count: 0,
-                                },
-                                reviews: 0,
-                              }).then(() => {console.log("user add to base")})
-                              .catch((error) => {console.log("there was an error, details: " + error)});
-            });
-            }
-            ); 
+            img: url,
+            time: recipe.time,
+            category: recipe.category,
+            rating: {
+              rate: 0,
+              count: 0,
+            },
+            reviews: 0,
+          };
+          set(ref(db, `recipes/`+recipe.id),
+            newRecipe
+          ).then(() => {console.log("recipe add to base")})
+          .catch((error) => {console.log("there was an error, details: " + error)});
+          store.dispatch(addUserRecipeAction(newRecipe))
+      });
     }
-  
+    ); 
 }
 
 export const addFollower = (id, param, user) => {
@@ -114,14 +116,14 @@ export const addFollower = (id, param, user) => {
           }
         }
         if (ckeck){                                              
-              set(ref(db, `users/`+ id +`/` + param),
-              +datas.followers + 1
-            ).then(() => {})
-            .catch((error) => {console.log("there was an error, details: " + error)});
-            set(ref(db, `users/`+ id +`/usersFollowers/` + user.idUrl),
-            user.idUrl
-          ).then(() => {})
-          .catch((error) => {console.log("there was an error, details: " + error)});
+          set(ref(db, `users/`+ id +`/` + param),
+                    +datas.followers + 1
+                    ).then(() => {})
+                    .catch((error) => {console.log("there was an error, details: " + error)});
+          set(ref(db, `users/`+ id +`/usersFollowers/` + user.idUrl),
+                    user.idUrl
+                    ).then(() => {})
+                    .catch((error) => {console.log("there was an error, details: " + error)});
           set(ref(db, `users/`+ user.idUrl +`/following`),
                      +user.following + 1
                     ).then(() => {})
@@ -151,11 +153,11 @@ export const setcreateToUserRate = (rate, product, id) => {
 
     set(ref(db, `recipes/`+ product.id + `/rating/rate`),
                     ((+product.rating.rate * +product.rating.count) + rate) / (+product.rating.count + 1),
-                  ).then(() => {console.log("respond add to base")})
+                  ).then(() => {console.log("respond rate add to base")})
                   .catch((error) => {console.log("there was an error, details: " + error)});
     set(ref(db, `recipes/`+ product.id + `/rating/count`),
                   (+product.rating.count + 1),
-                ).then(() => {console.log("respond add to base")})
+                ).then(() => {console.log("respond count add to base")})
                 .catch((error) => {console.log("there was an error, details: " + error)});
   }
 }

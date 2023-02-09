@@ -1,60 +1,34 @@
-import { onValue, ref } from "firebase/database";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { setCurrentUserAction } from "../../Components/Redux/Actions/indexCurrentUser";
 import { getUser } from "../../Components/utills/api";
-import { db } from "../../Components/utills/firebase";
 import { LoginEmptyPage, NotAccessPage } from "../EmptyPage/EmptyPage";
 import { RecipeCardUserProfile } from "./components/RecipeCardUserProfile";
 import style from "./profilepage.module.scss"
 import store from "../../Components/Redux/store/store"
 import { getUserRecipesAction } from "../../Components/Redux/Actions/indexRecipes";
+import { getFollowingUsers } from "../../Components/Redux/Actions/indexUsers";
+import { FollowingsCardUserProfile } from "./components/FollowingsCardUserProfile";
 
 export const ProfilePage = () => {
-    const user = useSelector(state => state.userPage)
-    const currentUser = useSelector(state => state.currentUserPage)
-    const userRecipes = useSelector(state => state.recipes)
-    console.log(userRecipes);
     const {id} = useParams();
+    const user = useSelector(state => state.userPage.user)
+    const isAuth = useSelector(state => state.userPage.isAuth)
+    const currentUser = useSelector(state => state.currentUserPage.user)
+    const userFollowings = useSelector(state => state.users.userFollowings)
+    const userRecipes = useSelector(state => state.recipes.userRecipes)
     const [btn_tabs, setBtn_tabs] = useState("Recipes");
-    const [recipes, setRecipes] = useState([]);
-
     useEffect(() => {
         getUser(id).then(data => {
             store.dispatch(getUserRecipesAction(id))
             store.dispatch(setCurrentUserAction(data))
-            
+            store.dispatch(getFollowingUsers(user.usersFollowing))
         })
     }, [id])
-    useEffect(() => {
-        if (btn_tabs === "Recipes") {
-                if (currentUser.uid) {
-                      const query = ref(db, `recipes/`);
-                        return onValue(query, (snapshot) => {
-                        const data = snapshot.val();
-                        if (snapshot.exists()) {
-                            let rec = [];
-                            for (let el in data){
-                               if (data[el].idUser === currentUser.idUrl) {
-                                    rec.push(data[el]);
-                               }
-                            }
-                            setRecipes(rec);
-                        }
-                      });
-                  }
-        } else if (btn_tabs === "Tags"){
-            setRecipes([]);
-        } else if (btn_tabs === "Notifications") {
-            setRecipes(currentUser.notifications)
-        }
-    }, [btn_tabs, currentUser.notifications, currentUser.idUrl, currentUser.uid])
-
-    const tabs = recipes.length > 0 ? recipes.map(el => <RecipeCardUserProfile key={el.id}  recipe={el}/>) : "it's empry";
-    
-    if (user.idUrl && currentUser.name !== "Guest") { 
+    let tabUserRecipes = userRecipes.length > 0 ? userRecipes.map(el => <RecipeCardUserProfile key={el.id} recipe={el}/>) : "it's empty";
+    let tabUserFollowings = userFollowings.length > 0 ? userFollowings.map(el => <FollowingsCardUserProfile key={el.id} user={el} />) : "it's empty";
+    if (isAuth && currentUser.name !== "Guest") { 
     return (
         <div className={style.profile_container}>
             <div className={style._header}>
@@ -92,16 +66,21 @@ export const ProfilePage = () => {
             <div className={style.add_recipe}>
                 {currentUser.idUrl === user.idUrl ? <Link to={`/react-recipe-app/profile/add_recipe`}><button>Add Recipe</button></Link> : <div></div>} 
             </div>
-            {currentUser.idUrl === user.idUrl ?  <div className={style.tabs}>
-                <button onClick={() => setBtn_tabs("Recipes")}>Recipes</button>
-                <button onClick={() => setBtn_tabs("Tags")}>Follow Users</button>
-                <button onClick={() => setBtn_tabs("Notifications")}>Notifications</button>
-            </div> :  <div className={style.tabs}>
-                        <button>Recipes</button>
-                    </div>
+            {currentUser.idUrl === user.idUrl ?  
+                <div className={style.tabs}>
+                    <button onClick={(e) => setBtn_tabs(e.target.textContent)}>Recipes</button>
+                    <button onClick={(e) => setBtn_tabs(e.target.textContent)}>Follow Users</button>
+                    <button onClick={(e) => setBtn_tabs(e.target.textContent)}>Notifications</button>
+                </div> 
+                :  
+                <div className={style.tabs}>
+                    <h2>Recipes</h2>
+                </div>
             }
             <div className={style.profile_tabs_section}>
-                {tabs}
+                {btn_tabs === "Recipes" && tabUserRecipes}
+                {btn_tabs === "Follow Users" && tabUserFollowings}
+                {btn_tabs === "Notifications" && <div>section in progress</div>}
             </div>
         </div>
     )

@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Categories } from "../../data/data";
 import {useNavigate} from "react-router-dom"
-import {createRecipe, updateUserParam} from "../../Components/utills/functions"
 import style from "./createrecipepage.module.scss"
+import { useSelector } from "react-redux";
+import store from "../../Components/Redux/store/store";
+import { updateCountRecipesUserAction } from "../../Components/Redux/Actions/indexUser";
+import { createRecipe } from "../../Components/utills/functions";
 
 
-export const CreateRecipe = (props) => {
-    const user = props.user;
+export const CreateRecipe = () => {
+    const user = useSelector(state => state.userPage.user)
+    const isAuth = useSelector(state => state.userPage.isAuth)
     const [title, setTitle]=useState("");
     const [err_Title, setErr_Title]= useState("");
     const [category, setCategory]= useState("All");
@@ -30,14 +34,12 @@ export const CreateRecipe = (props) => {
       list[index][name] = value;
       setInputList(list);
     }
-   
     // handle click event of the Remove ingradient
     const handleRemoveClick = index => {
       const list = [...inputList];
       list.splice(index, 1);
       setInputList(list);
     }
-   
     // handle click event of the Add ingradient
     const handleAddClick = () => {
       setInputList([...inputList, {}]);
@@ -61,7 +63,6 @@ export const CreateRecipe = (props) => {
         newList.splice(index, 1)
         setProcedureList(newList)
     }
-
     const handleChange = (e) => {
         if (e.target.id === "title") setTitle(e.target.value);
         if (title.length >= 29) {
@@ -89,7 +90,6 @@ export const CreateRecipe = (props) => {
         }
         return newRecipe;
     }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         if(!title || title.length === 0) {
@@ -105,12 +105,12 @@ export const CreateRecipe = (props) => {
             setInvalid_file(invalid_style);
         } else {setErr_File("");  setInvalid_file(valid_style);}
         
-        if (!err_Title && !err_Time && !err_File && user) {
-            createRecipe(newRecipe(), props.user, file)
-            updateUserParam(user.idUrl, "countRecipes", +user.countRecipes+1)
-            navigate(`/react-recipe-app/profile/${user.idUrl}`)
-            setInvalidSubmit({border: "none"});
-        } else setInvalidSubmit(invalid_style);
+        if (!err_Title && !err_Time && !err_File && isAuth) {
+        createRecipe(newRecipe(), user, file);
+        store.dispatch(updateCountRecipesUserAction())
+         navigate(`/react-recipe-app/profile/${user.idUrl}`)
+         setInvalidSubmit({border: "none"});
+        } else  setInvalidSubmit(invalid_style);
     }
 
     return (

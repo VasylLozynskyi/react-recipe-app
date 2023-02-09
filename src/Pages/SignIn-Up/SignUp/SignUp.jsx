@@ -17,7 +17,7 @@ export const SignUp = (props) => {
             </div>
             <FormSignUp handleUser={handleUser} />
             <BlockBtnSignIn />
-            <HomeIndicator style = "black" />
+            <HomeIndicator styleValue = "black" />
         </div>
     )
 }

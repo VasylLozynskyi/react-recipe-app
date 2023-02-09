@@ -1,15 +1,18 @@
-import { SET_CURRENT_USER_STATE } from "../Constants/constants";
+import { ADD_CURRENT_USER_FOLLOW, SET_CURRENT_USER_STATE } from "../Constants/constants";
 
-let initialState = {};
+let initialState = {
+    user: {}
+};
 
 const currentUserReducer = (state = initialState, action) => {
   
     switch (action.type) {
         case SET_CURRENT_USER_STATE:
-            state = action.user;
-            return state;
+            return {...state,
+                user: action.user
+            }
         default:
-            return state;
+            return {...state}
     }
 }
 

@@ -9,17 +9,9 @@ import { Provider} from "react-redux"
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-let rerenderDOM = (state) => {
+
 root.render(
     <Provider store={store}>
         <App />
     </Provider>
 );
-}
-
-rerenderDOM(store.getState());
-store.subscribe(() => {
-    let state = store.getState();
-    rerenderDOM(state)
-});
-

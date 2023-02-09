@@ -1,0 +1,32 @@
+.popup_share{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;  
+  left: 0;
+  background-color: #a9a9a9be;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  .popup_container_share{
+    position: absolute;
+      width: 250px;
+      height: 150px;
+      margin: 30px;
+      background-color: white;
+      border-radius: 30px;
+      padding: 20px;
+      button{
+        display: block;
+        height: 25px;
+        padding: 0 10px;
+        margin: 15px auto;
+    }
+    p{
+      border: 1px solid #129575;
+      padding: 5px;
+      line-height: 20px;
+    }
+  } 
+}

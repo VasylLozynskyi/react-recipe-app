@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import style from "./header.module.scss"
 
 export const Header = () => {
-    const user = useSelector(state => state.userPage)
+    const user = useSelector(state => state.userPage.user)
         return (
             <header>
                 <div className={style.userinfo_section}>

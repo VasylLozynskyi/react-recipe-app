@@ -1,52 +1,46 @@
-import { updateUserParam } from "../../utills/functions";
-import { SET_STATE, UPDATE_ABOUT, UPDATE_AVATAR, UPDATE_NAME, UPDATE_POSITION, USER_LOGOUT } from "../Constants/constants";
-import { ref as sRef, uploadBytesResumable, getDownloadURL} from "firebase/storage"
-import { dbStorage } from "../../utills/firebase";
+import { ADD_CURRENT_USER_FOLLOW, GET_USER_FOLLOWINGS, SET_USERS_STATE,} from "../Constants/constants";
 
-let initialState = {};
+let initialState = {
+    users: [],
+    userFollowings: [],
+    userFollowers: [],
+};
 
-const userReducer = (state = initialState, action) => {
+const usersReducer = (state = initialState, action) => {
   
     switch (action.type) {
-        case SET_STATE:
-            state = action.user;
-            return state;
-        case UPDATE_NAME:
-            updateUserParam(state.idUrl, "name", action.text);
-            state.name = action.text;
-            return state;
-        case UPDATE_ABOUT:
-            updateUserParam(state.idUrl, "about", action.text);
-            state.about = action.text;
-            return state;
-        case UPDATE_POSITION:
-            updateUserParam(state.idUrl, "position", action.text);
-            state.position = action.text;
-            return state;
-        case USER_LOGOUT:
-            state = {};
-            return state;
-        case UPDATE_AVATAR:
-            const storageRef = sRef(dbStorage, `/files/users/${state.idUrl}/`)
-            const uploadTask = uploadBytesResumable(storageRef, action.file);
-                uploadTask.on( "state_changed",
-                (snapshot) => {        
-                },
-                (err) => console.log(err),
-                () => {
-                // download url
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    updateUserParam(state.idUrl, "iconAvatar", url);
-                    state.iconAvatar = url;
-                });
-                });
-            
-            return state;
+        case SET_USERS_STATE:
+            return {...state, users: [...action.users]}
+        case GET_USER_FOLLOWINGS:
+            let usersFoll = [];
+            for (let user of state.users){
+                for (let id in action.userFollowings){
+                    if (+action.userFollowings[id] === +user.idUrl){
+                        usersFoll.push(user)
+                    }
+                }
+            }
+        return {...state, userFollowings: usersFoll}
+        case ADD_CURRENT_USER_FOLLOW:
+        //     let ar = [...state.users];
+        //     for (let el of ar){
+        //         if (el.idUrl === action.idUser){
+        //             el.followers.
+        //         }
+        //     }
+        //  let [following] = ar.filter(user => user.idUrl === action.idUser)
+        //  console.log(following);
+        //  +following.followers += 1;
+        //   return {
+        //     ...state, 
+        //     users: [...state.users.filter(user => user.idUrl === action.idUser)[0].followers: action.idUrl]
+        //   }
+         // action.idUser  action.idUrl
+           
+         return state;
         default:
-            return state;
+            return {...state}
     }
 }
 
-
-
-export default userReducer;
+export default usersReducer;

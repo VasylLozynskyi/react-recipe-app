@@ -10,6 +10,7 @@ import { getData, getUserAsUID } from "../Components/utills/api";
 import { setUserAction } from "../Components/Redux/Actions/indexUser";
 import store from "../Components/Redux/store/store";
 import { setRecipesAction } from "../Components/Redux/Actions/indexRecipes";
+import { setUsersAction } from "../Components/Redux/Actions/indexUsers";
 
 
 
@@ -20,7 +21,9 @@ const Main = () => {
         getData("recipes").then(data => {
             store.dispatch(setRecipesAction(data))
         })
-      
+        getData("users").then(data => {
+            store.dispatch(setUsersAction(data))
+        })
     }, [])
 
     useEffect(() => {

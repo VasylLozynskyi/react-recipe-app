@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { updateRecipeRatingAction } from "../../Redux/Actions/indexRecipes";
+import { updateRatesUserAction } from "../../Redux/Actions/indexUser";
+import store from "../../Redux/store/store";
 import { setcreateToUserRate } from "../../utills/functions";
 
 import style from "./starrating.module.scss"
@@ -12,7 +15,6 @@ export const StarRating = (props) => {
         if(props.user.uid){
         for (let r in props.user.rates){
             if(+r === props.product.id){
-                console.log("aseas");
                setRating(props.user.rates[r].productRate);
                setIsRate("You had rates this recipe")
             }
@@ -34,6 +36,9 @@ export const StarRating = (props) => {
                         if (props.user.uid && !rating) {
                            setRating(index);
                            setcreateToUserRate(index, props.product, props.user.idUrl)
+                           let rates = {productId: props.product.id, productRate: index}
+                           store.dispatch(updateRatesUserAction(rates, props.product.id))
+                           store.dispatch(updateRecipeRatingAction(index, props.product.id))
                         } else if(!props.user.uid) {props.toLogin();} else if (rating) {
                             alert("you just had rates this recipe")
                         }}}

@@ -1,7 +1,5 @@
-import { child, get, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import {Link, useParams} from "react-router-dom"
-import { db } from "../../Components/utills/firebase";
 import star from "../../assets/images/star.png"
 import timer from "../../assets/images/timer.png"
 import style from "./recipepage.module.scss"
@@ -11,41 +9,36 @@ import star_icon from "../../assets/images/star_icon.png"
 import update_icon from "../../assets/images/update_icon.png"
 import share_icon from "../../assets/images/share_icon.png"
 import review_icon from "../../assets/images/review_icon.png"
+import { getRecipe } from "../../Components/utills/api";
+import { useSelector } from "react-redux";
+import { SharePopup } from "./components/SharePopup";
 
-export const RecipePage = (props) => {
- 
+export const RecipePage = () => {
+    const user = useSelector(state => state.userPage.user)
+    const {id} = useParams()
     const [recipe, setRecipe]=useState({})
     const [rate, setRate]=useState("")
     const [timePrepare, setTimePrepare] = useState("")
     const [infoIngredient, setInfoIngredient] = useState(false);
     const [infoProcedure, setInfoProcedure] = useState(false);
     const [reviews, setReviews] = useState(false);
-    const [popup, setPopup]=useState({ display: "none"});
-    const {id} = useParams()
-
+    const [popup, setPopup] = useState({ display: "none"});
+    const [share, setShare] = useState(false)
+    
     useEffect(()=>{
-        const dbRef = ref(db);
-        get(child(dbRef, `/recipes/${id}`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                const data=snapshot.val();
+        getRecipe(id).then(data => {
+            if (data){
                 setRecipe(data);
-                setRate(data.rating.rate)
-                setInfoIngredient(true)
-                setTimePrepare(data.time)
-                } else {
-                    console.log("No data available");
-                }
-        }  ).catch((error) => {
-            console.error(error);
-        });
-
+                setRate(data.rating.rate);
+                setTimePrepare(data.time);
+                setInfoIngredient(true);
+            }
+        })
     }, [id]);
-
     const handleFollow = () => {
-        
-        addFollower(recipe.idUser, "followers", props.user)
+       // store.dispatch(addCurrentUserFollowAction(recipe.idUser, user.idUrl))
+       addFollower(recipe.idUser, "followers", user)
     }
-
     const handleClick = (e) =>{
         if (e.target.textContent === "Ingredients"){
             setInfoIngredient(true); 
@@ -61,20 +54,27 @@ export const RecipePage = (props) => {
             setInfoProcedure(false);
         }
     }
-
     const hidePopuphandler = (e) => {
         if(e.target.attributes[1] && e.target.attributes[1].value){
             setPopup({ display: "none"})
         }
     }
-
     const moreHandler = () => {
         setPopup({ display: "flex"})
     }
+    const handleShowSharePopup = (e) => {
+        setShare(true)
+        setPopup({ display: "none"})
 
+    }
+    const handleShowShare = (e) => {
+        if(e.target.attributes[1] && e.target.attributes[1].value){
+        setShare(false)
+        }
+    }
     return (
         <div className={style.recipe_container}>
-            { props.user.name !== "Guest" ? <div className={style.more} onClick= {moreHandler}>
+            { user.name !== "Guest" ? <div className={style.more} onClick= {moreHandler}>
                 <button title="more">...</button> 
             </div> : ""}
             <div className={style.img_section}>
@@ -98,7 +98,7 @@ export const RecipePage = (props) => {
                     </div>
                     <h2>{recipe.authorName}</h2>
                 </Link>
-                { props.user.name !== "Guest" && props.user.idUrl !== recipe.idUser ? <div className={style.right}>
+                { user.name !== "Guest" && user.idUrl !== recipe.idUser ? <div className={style.right}>
                     <button onClick={handleFollow}>Follow</button>
                 </div> : ""}
             </div>
@@ -144,11 +144,11 @@ export const RecipePage = (props) => {
                         <div>
                             <img src={star_icon} alt="#" />
                             <h2>Rate recipe</h2>
-                            <StarRating user={props.user} product={recipe} />
+                            <StarRating user={user} product={recipe} />
                         </div>
                         <div>
                             <img src={share_icon} alt="#" />
-                            <h2>share</h2>  
+                            <h2 onClick={handleShowSharePopup}>share</h2>  
                         </div>
                         <div>
                             <img src={review_icon} alt="#" />
@@ -156,6 +156,7 @@ export const RecipePage = (props) => {
                         </div>
                     </div>
                 </div>
+                {share && <SharePopup isShare={handleShowShare} />}
         </div>
     )
 }

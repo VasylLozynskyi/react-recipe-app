@@ -1,6 +1,7 @@
 import { child, get, ref } from 'firebase/database';
 import { db } from './firebase';
 
+
 export function getData (data){
   const dbRef = ref(db);
   return get(child(dbRef, data)).then((snapshot) => {
