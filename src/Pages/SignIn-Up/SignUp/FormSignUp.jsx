@@ -76,7 +76,7 @@ export const FormSignUp = (props) => {
                 const user = userCredential.user;
                 props.handleUser(user);
                 createUserProfile(user);
-                navigate("/react-recipe-app/home")
+                navigate("/home")
                 // ...
             })
             .catch((error) => {

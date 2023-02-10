@@ -108,7 +108,7 @@ export const CreateRecipe = () => {
         if (!err_Title && !err_Time && !err_File && isAuth) {
         createRecipe(newRecipe(), user, file);
         store.dispatch(updateCountRecipesUserAction())
-         navigate(`/react-recipe-app/profile/${user.idUrl}`)
+         navigate(`/profile/${user.idUrl}`)
          setInvalidSubmit({border: "none"});
         } else  setInvalidSubmit(invalid_style);
     }

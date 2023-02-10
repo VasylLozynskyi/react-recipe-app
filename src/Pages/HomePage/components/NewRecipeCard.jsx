@@ -18,7 +18,7 @@ export const NewRecipeCard = (props) => {
                 <div className={style.card_info}>
                     <div className={style._author}>
                         <img src="" alt="" />
-                        <Link to={`/react-recipe-app/profile/${props.data.idUser}`}>
+                        <Link to={`/profile/${props.data.idUser}`}>
                             <p>By {props.data.authorName}</p>
                         </Link>
                         

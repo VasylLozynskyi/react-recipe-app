@@ -31,7 +31,7 @@ export const HomePage = (props) => {
     }
     const onSearch = () => {
         props.onSearch(search);
-        navigate(`/react-recipe-app/search`);
+        navigate(`/search`);
     }
 
     useEffect(()=> {

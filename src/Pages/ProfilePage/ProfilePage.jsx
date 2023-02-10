@@ -37,7 +37,7 @@ export const ProfilePage = () => {
         <div className={style.profile_container}>
             <div className={style._header}>
                 <h2>Profile</h2>
-                {currentUser.idUrl === user.idUrl ? <Link to={`/react-recipe-app/profile/${currentUser.idUrl}/settings`}><button className={style.btn_setting}>Settings</button></Link> : <div></div>}
+                {currentUser.idUrl === user.idUrl ? <Link to={`/profile/${currentUser.idUrl}/settings`}><button className={style.btn_setting}>Settings</button></Link> : <div></div>}
             </div>
             <div className={style._main}>
                 <div className={style._photo}>
@@ -68,7 +68,7 @@ export const ProfilePage = () => {
                 <h3>{currentUser.about}</h3>
             </div>
             <div className={style.add_recipe}>
-                {currentUser.idUrl === user.idUrl ? <Link to={`/react-recipe-app/profile/add_recipe`}><button>Add Recipe</button></Link> : <div></div>} 
+                {currentUser.idUrl === user.idUrl ? <Link to={`/profile/add_recipe`}><button>Add Recipe</button></Link> : <div></div>} 
             </div>
             {currentUser.idUrl === user.idUrl ?  
                 <div className={style.tabs}>

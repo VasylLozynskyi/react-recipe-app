@@ -31,10 +31,10 @@ const Main = () => {
     <div className={style.wrapper_body}>
         <div className={style.container}>
             <Routes>
-            <Route path="/react-recipe-app" element={<FirstPage />}  />
-            <Route path="/react-recipe-app/login" element={<SignIn handleUser={handleUser} />}  />
-            <Route path="/react-recipe-app/SignUp" element={<SignUp handleUser={handleUser} />} />
-            <Route path="/react-recipe-app/*" element={<HomeRouter user={user} />} />
+            <Route path="/" element={<FirstPage />}  />
+            <Route path="/login" element={<SignIn handleUser={handleUser} />}  />
+            <Route path="/SignUp" element={<SignUp handleUser={handleUser} />} />
+            <Route path="/*" element={<HomeRouter user={user} />} />
             </Routes>
         </div>
     </div>

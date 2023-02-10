@@ -15,9 +15,9 @@ export const Header = () => {
                 </div>
                 <div className={style.nav_section}>
                     <div className={style.nav_flex}>
-                        <Link to={`/react-recipe-app/home`}>Home</Link>
-                        <Link to={`/react-recipe-app/recipes`}>Recipes</Link>
-                        { user.name === "Guest" ? <Link to={`/react-recipe-app/login`}>Login</Link> : <Link to={`/react-recipe-app/profile/${user.idUrl}`}>Profile</Link>}
+                        <Link to={`/home`}>Home</Link>
+                        <Link to={`/recipes`}>Recipes</Link>
+                        { user.name === "Guest" ? <Link to={`/login`}>Login</Link> : <Link to={`/profile/${user.idUrl}`}>Profile</Link>}
                     </div>
                 </div>
             </header>

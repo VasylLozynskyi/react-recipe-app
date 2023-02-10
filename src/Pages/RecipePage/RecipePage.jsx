@@ -95,7 +95,7 @@ export const RecipePage = () => {
             </div>
             <h2 className={style.title}>{recipe.title}</h2>
             <div className={style.author_section}>
-                <Link className={style.left} to={`/react-recipe-app/profile/${recipe.idUser}`}>
+                <Link className={style.left} to={`/profile/${recipe.idUser}`}>
                     <div className={style.avatar}>
                         <img src={recipe.authorAvatar} alt="avatar_author" />
                     </div>

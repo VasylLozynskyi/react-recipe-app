@@ -7,7 +7,7 @@ const BlockBtnSignUp = () => {
         <div className={style.blockBtnSignUp}>
             <p>Don’t have an account?</p>
             <div className={style.absolPosition}>
-                <Link className={style.btn_Signup} to='/react-recipe-app/SignUp'>Sign up</Link>
+                <Link className={style.btn_Signup} to='/SignUp'>Sign up</Link>
             </div>
         </div>
     )

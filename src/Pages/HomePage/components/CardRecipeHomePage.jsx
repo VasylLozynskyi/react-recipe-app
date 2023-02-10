@@ -5,7 +5,7 @@ import {Link} from "react-router-dom"
 export const CardRecipeHomePage = (props) => {
     
     return (
-        <Link to={`/react-recipe-app/recipes/${props.data.id}`} className={style.card_container_homepage}>
+        <Link to={`/recipes/${props.data.id}`} className={style.card_container_homepage}>
             <div className={style.img_product}>
                 <img src={props.data.img} alt="" />
             </div>

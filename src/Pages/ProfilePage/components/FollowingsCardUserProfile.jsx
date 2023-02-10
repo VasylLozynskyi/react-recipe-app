@@ -5,7 +5,7 @@ export const FollowingsCardUserProfile = (props) => {
   const user = props.user
   return (
     <div>
-      <Link to={`/react-recipe-app/profile/${user.idUrl}`}>
+      <Link to={`/profile/${user.idUrl}`}>
         <div>
           <img src={user.iconAvatar} alt="#" />
         </div>

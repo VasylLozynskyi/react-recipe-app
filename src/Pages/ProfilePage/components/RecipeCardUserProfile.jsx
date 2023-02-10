@@ -13,10 +13,10 @@ export const RecipeCardUserProfile = (props) => {
             </div>
             <RateSection rating={recipe.rating} />
             <div className={style.info_author}>
-                <Link to={`/react-recipe-app/recipes/${recipe.id}`}>
+                <Link to={`/recipes/${recipe.id}`}>
                     <h3>{recipe.title}</h3>
                 </Link>
-                <Link to={`/react-recipe-app/profile/${recipe.idUser}`}><p>By {recipe.authorName}</p></Link>
+                <Link to={`/profile/${recipe.idUser}`}><p>By {recipe.authorName}</p></Link>
             </div>
             <TimeSection time={recipe.time} />
         </div>

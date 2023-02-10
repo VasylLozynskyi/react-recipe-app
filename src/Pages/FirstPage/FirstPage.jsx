@@ -14,7 +14,7 @@ const FirstPage = () => {
                 <div className={style.headerH1}>
                     <h1>Get Cooking</h1>
                     <p>Simple way to find Tasty Recipe</p>
-                    <Link to="/react-recipe-app/login" className={style.btnStartCooking}><button>Start Cooking</button></Link>
+                    <Link to="/login" className={style.btnStartCooking}><button>Start Cooking</button></Link>
                 </div>
                 <HomeIndicator styleValue = "white" />
             </div>

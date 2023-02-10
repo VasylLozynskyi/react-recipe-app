@@ -60,7 +60,7 @@ const handleSubmit = (e) =>{
             // Signed in
             const user = userCredential.user;
             props.handleUser(user);
-            navigate(`/react-recipe-app/home`);
+            navigate(`/home`);
             window.localStorage.setItem("userLoginREcipeApp", JSON.stringify(user));
         })
         .catch((error) => {
@@ -82,7 +82,7 @@ const handleLoginGuest = () => {
             // Signed in
             const user = userCredential.user;
             props.handleUser(user);
-            navigate("/react-recipe-app/home");
+            navigate("/home");
         })
         .catch((error) => {
             //const errorCode = error.code;
