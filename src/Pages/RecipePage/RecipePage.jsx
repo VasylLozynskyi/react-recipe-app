@@ -27,12 +27,14 @@ export const RecipePage = () => {
     
     useEffect(()=>{
         getRecipe(id).then(data => {
+            console.log(data)
             if (data){
+               
                 setRecipe(data);
                 setRate(data.rating.rate);
                 setTimePrepare(data.time);
                 setInfoIngredient(true);
-            }
+            } else setRecipe({})
         })
     }, [id]);
     const handleFollow = () => {
@@ -72,6 +74,7 @@ export const RecipePage = () => {
         setShare(false)
         }
     }
+    if (recipe.id) {
     return (
         <div className={style.recipe_container}>
             { user.name !== "Guest" ? <div className={style.more} onClick= {moreHandler}>
@@ -139,7 +142,9 @@ export const RecipePage = () => {
                     <div className={style.popup_container_filter}>
                         <div>
                             <img src={update_icon} alt="#" />
-                            <h2>Update Recipe</h2>
+                            <Link to={`/recipes/${recipe.id}/settings`}>
+                                <h2>Update Recipe</h2>
+                            </Link>
                         </div>
                         <div>
                             <img src={star_icon} alt="#" />
@@ -159,4 +164,9 @@ export const RecipePage = () => {
                 {share && <SharePopup isShare={handleShowShare} />}
         </div>
     )
+                } else return (
+                    <div>
+                        This recipe does not exist
+                    </div>
+                )
 }

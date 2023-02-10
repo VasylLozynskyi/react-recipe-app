@@ -59,6 +59,7 @@ export const SettingPage = () => {
     }
     const handleLogout = () => {               
             store.dispatch(userLogout())
+            localStorage.removeItem("userLoginREcipeApp");
             navigate("/react-recipe-app");
     }
     return (

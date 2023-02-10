@@ -55,13 +55,13 @@ const handleSubmit = (e) =>{
       }
       //back-end part
       if (login && password && !password_err && !login_err){
-        console.log("Post to server login and password for Get true user");
         signInWithEmailAndPassword(auth, login, password)
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
             props.handleUser(user);
             navigate(`/react-recipe-app/home`);
+            window.localStorage.setItem("userLoginREcipeApp", JSON.stringify(user));
         })
         .catch((error) => {
             //const errorCode = error.code;
@@ -69,7 +69,7 @@ const handleSubmit = (e) =>{
             setError(errorMessage)
             setShowError({display: "flex"})
         });
-      }
+       }
       e.preventDefault();
       //
 }
