@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-recipe-app/static/css/main.797027d1.css",
-    "main.js": "/react-recipe-app/static/js/main.55b3e144.js",
+    "main.js": "/react-recipe-app/static/js/main.bc28f9a1.js",
     "static/media/background__firstPage.png": "/react-recipe-app/static/media/background__firstPage.c211bbc14a0f5db45742.png",
     "static/media/Poppins-Regular.ttf": "/react-recipe-app/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
     "static/media/Poppins-Bold.ttf": "/react-recipe-app/static/media/Poppins-Bold.cdb29a5d7ccf57ff05a3.ttf",
@@ -9,10 +9,10 @@
     "static/media/facebook.svg": "/react-recipe-app/static/media/facebook.2f84393e7ac83e1da3203d951b841784.svg",
     "index.html": "/react-recipe-app/index.html",
     "main.797027d1.css.map": "/react-recipe-app/static/css/main.797027d1.css.map",
-    "main.55b3e144.js.map": "/react-recipe-app/static/js/main.55b3e144.js.map"
+    "main.bc28f9a1.js.map": "/react-recipe-app/static/js/main.bc28f9a1.js.map"
   },
   "entrypoints": [
     "static/css/main.797027d1.css",
-    "static/js/main.55b3e144.js"
+    "static/js/main.bc28f9a1.js"
   ]
 }
