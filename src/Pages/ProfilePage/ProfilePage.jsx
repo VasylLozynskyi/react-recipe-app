@@ -18,17 +18,21 @@ export const ProfilePage = () => {
     const currentUser = useSelector(state => state.currentUserPage.user)
     const userFollowings = useSelector(state => state.users.userFollowings)
     const userRecipes = useSelector(state => state.recipes.userRecipes)
+    const [noUserData, setNoUserData] = useState(true)
     const [btn_tabs, setBtn_tabs] = useState("Recipes");
     useEffect(() => {
         getUser(id).then(data => {
+            if (data){
             store.dispatch(getUserRecipesAction(id))
             store.dispatch(setCurrentUserAction(data))
             store.dispatch(getFollowingUsers(user.usersFollowing))
+            setNoUserData(true)
+            } else setNoUserData(false)
         })
     }, [id])
     let tabUserRecipes = userRecipes.length > 0 ? userRecipes.map(el => <RecipeCardUserProfile key={el.id} recipe={el}/>) : "it's empty";
     let tabUserFollowings = userFollowings.length > 0 ? userFollowings.map(el => <FollowingsCardUserProfile key={el.id} user={el} />) : "it's empty";
-    if (isAuth && currentUser.name !== "Guest") { 
+    if (noUserData && isAuth && currentUser.name !== "Guest") { 
     return (
         <div className={style.profile_container}>
             <div className={style._header}>
@@ -84,5 +88,7 @@ export const ProfilePage = () => {
             </div>
         </div>
     )
-    } if (user.name === "Guest") { return (<NotAccessPage />)}else return (<LoginEmptyPage />)
+    } else if (noUserData && user.name === "Guest") { return (<NotAccessPage />)}else return (<div>{(isAuth && noUserData) &&<LoginEmptyPage />}
+    {(isAuth && !noUserData) && <div> This user page does not exist</div>}
+    </div>)
 }
