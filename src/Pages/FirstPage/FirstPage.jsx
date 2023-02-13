@@ -4,17 +4,18 @@ import style from "./firstPage.module.scss";
 import HomeIndicator from "../../Components/components/HomeIndicator/HomeIndicator";
 import {Link} from 'react-router-dom';
 
-const FirstPage = () => {
+const FirstPage = (props) => {
+    const data = props.dataSite;
         return (
             <div className={style.wrapper_firstpage}>
                 <div className={style.firstPage_section}>
                     <img src={iconHat} alt="iconHat img first page" />
-                    <p>100K+ Premium Recipe</p>
+                    <p>{data.subMainText}</p>
                 </div>
                 <div className={style.headerH1}>
-                    <h1>Get Cooking</h1>
-                    <p>Simple way to find Tasty Recipe</p>
-                    <Link to="/login" className={style.btnStartCooking}><button>Start Cooking</button></Link>
+                    <h1>{data.title}</h1>
+                    <p>{data.subTitle}</p>
+                    <Link to="/login" className={style.btnStartCooking}><button>{data.link}</button></Link>
                 </div>
                 <HomeIndicator styleValue = "white" />
             </div>

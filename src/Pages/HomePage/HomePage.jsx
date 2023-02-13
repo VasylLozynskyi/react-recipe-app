@@ -16,6 +16,7 @@ export const HomePage = (props) => {
     const [showLoading, setShowLoading] = useState(true);
     const [recipes, setRecipes] = useState([]);
     const [search, setSearch] = useState("");
+    const [validInputSearch, setValidInputSearch] = useState("")
     const navigate = useNavigate();
     useEffect(() => { 
         setRecipes(allRecipes)
@@ -27,11 +28,20 @@ export const HomePage = (props) => {
         }
     }
     const handleSearch = (e) => {
-        setSearch(e.target.value);
+        if (!validInputSearch) {
+            setSearch(e.target.value);
+        } else {
+            e.target.value.length > 0 ? setValidInputSearch("") : setValidInputSearch("Please write some text to search")
+        }
+        
     }
     const onSearch = () => {
-        props.onSearch(search);
-        navigate(`/search`);
+        if (search.length > 0) {
+            props.onSearch(search);
+            navigate(`/search`);
+            setValidInputSearch("");
+        } setValidInputSearch("Please write some text to search")
+       
     }
 
     useEffect(()=> {
@@ -49,6 +59,7 @@ return(
        <div className={style.wrapper_UserHomePage}>
                 <section className={style.search_section}>
                     <input type="text" placeholder="Search recipe" onChange={handleSearch} />
+                    <p className={style.valid_search}>{validInputSearch}</p>
                     <button onClick={onSearch}>Search</button>
                 </section>
                 <div className={style.container_filter} onClick={handleCategory}>

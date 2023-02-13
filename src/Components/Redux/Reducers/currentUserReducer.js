@@ -1,4 +1,4 @@
-import { ADD_CURRENT_USER_FOLLOW, SET_CURRENT_USER_STATE } from "../Constants/constants";
+import { SET_CURRENT_USER_STATE } from "../Constants/constants";
 
 let initialState = {
     user: {}

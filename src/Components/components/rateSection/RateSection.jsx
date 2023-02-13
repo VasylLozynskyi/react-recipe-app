@@ -6,7 +6,7 @@ export const RateSection = (props) => {
   return (
     <div className={style.rating}>
                 <img src={star} alt="star" />
-                <p>{rate}</p>
+                <p>{rate.toFixed(1)}</p>
     </div>
   )
 }

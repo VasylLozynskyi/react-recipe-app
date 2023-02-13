@@ -1,0 +1,53 @@
+.reviewspopup_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;  
+  left: 0;
+  background-color: #a9a9a9be;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  .popup_container_rev{
+      position: absolute;
+      max-width: 500px;
+      min-height: 150px;
+      margin: 10px;
+      background-color: white;
+      border-radius: 30px;
+      padding: 20px;
+      text-align: center;
+      & > h2{
+        display: inline;
+      }
+      & > p{
+        margin: 20px;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 16px;
+        color: #A9A9A9;
+      }
+      button{
+        display: block;
+        height: 25px;
+        padding: 0 10px;
+        margin: 5px auto;
+      }
+      .commentwrite_section{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: relative;
+        textarea{
+          border: 1px solid #a9a9a9be;
+          width: 280px;
+          height: 100px;
+          padding: 10px;
+        }
+      }
+      .reviews{
+        margin: 10px;
+      }
+  } 
+}

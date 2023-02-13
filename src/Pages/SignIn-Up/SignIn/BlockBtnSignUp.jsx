@@ -2,12 +2,12 @@ import React from "react";
 import style from "./signin.module.scss"
 import {Link} from 'react-router-dom';
 
-const BlockBtnSignUp = () => {
+const BlockBtnSignUp = (props) => {
     return (
         <div className={style.blockBtnSignUp}>
-            <p>Don’t have an account?</p>
+            <p>{props.data.text}</p>
             <div className={style.absolPosition}>
-                <Link className={style.btn_Signup} to='/SignUp'>Sign up</Link>
+                <Link className={style.btn_Signup} to='/SignUp'>{props.data.link}</Link>
             </div>
         </div>
     )

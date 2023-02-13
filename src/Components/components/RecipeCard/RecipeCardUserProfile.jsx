@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import style from "./recipecarduserprofile.module.scss"
-import { RateSection } from "../../../Components/components/rateSection/RateSection"
-import { TimeSection } from "../../../Components/components/timesection/TimeSection";
+import { RateSection } from "../rateSection/RateSection"
+import { TimeSection } from "../timesection/TimeSection";
 
 export const RecipeCardUserProfile = (props) => {
    
@@ -9,7 +9,7 @@ export const RecipeCardUserProfile = (props) => {
     return (
         <div className={style.cardrecipeuser_container}>
             <div className={style.img_food}>
-                <img  src={recipe.img} alt="someimige_food" />
+                <img  src={recipe.img} alt="someimage_food" />
             </div>
             <RateSection rating={recipe.rating} />
             <div className={style.info_author}>

@@ -1,94 +1,61 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
-import { setCurrentUserAction } from "../../Components/Redux/Actions/indexCurrentUser";
-import { getUser } from "../../Components/utills/api";
-import { LoginEmptyPage, NotAccessPage } from "../EmptyPage/EmptyPage";
-import { RecipeCardUserProfile } from "./components/RecipeCardUserProfile";
+import { Link } from "react-router-dom";
 import style from "./profilepage.module.scss"
-import store from "../../Components/Redux/store/store"
-import { getUserRecipesAction } from "../../Components/Redux/Actions/indexRecipes";
-import { getFollowingUsers } from "../../Components/Redux/Actions/indexUsers";
-import { FollowingsCardUserProfile } from "./components/FollowingsCardUserProfile";
 
-export const ProfilePage = () => {
-    const {id} = useParams();
-    const user = useSelector(state => state.userPage.user)
-    const isAuth = useSelector(state => state.userPage.isAuth)
-    const currentUser = useSelector(state => state.currentUserPage.user)
-    const userFollowings = useSelector(state => state.users.userFollowings)
-    const userRecipes = useSelector(state => state.recipes.userRecipes)
-    const [noUserData, setNoUserData] = useState(true)
-    const [btn_tabs, setBtn_tabs] = useState("Recipes");
-    useEffect(() => {
-        getUser(id).then(data => {
-            if (data){
-            store.dispatch(getUserRecipesAction(id))
-            store.dispatch(setCurrentUserAction(data))
-            store.dispatch(getFollowingUsers(user.usersFollowing))
-            setNoUserData(true)
-            } else setNoUserData(false)
-        })
-    }, [id])
-    let tabUserRecipes = userRecipes.length > 0 ? userRecipes.map(el => <RecipeCardUserProfile key={el.id} recipe={el}/>) : "it's empty";
-    let tabUserFollowings = userFollowings.length > 0 ? userFollowings.map(el => <FollowingsCardUserProfile key={el.id} user={el} />) : "it's empty";
-    if (noUserData && isAuth && currentUser.name !== "Guest") { 
+export const ProfilePage = (props) => {
+    const data = props.data
     return (
         <div className={style.profile_container}>
             <div className={style._header}>
-                <h2>Profile</h2>
-                {currentUser.idUrl === user.idUrl ? <Link to={`/profile/${currentUser.idUrl}/settings`}><button className={style.btn_setting}>Settings</button></Link> : <div></div>}
+                <h2>{data.title}</h2>
+                {props.currentUser.idUrl === props.user.idUrl ? <Link to={`/profile/${props.currentUser.idUrl}/settings`}><button className={style.btn_setting}>{data.btnSettings}</button></Link> : ""}
             </div>
             <div className={style._main}>
                 <div className={style._photo}>
-                    <img src={currentUser.iconAvatar} alt="Avatar" />
+                    <img src={props.currentUser.iconAvatar} alt="Avatar" />
                 </div>
                 <div className={style.info_flutter}>
                     <div className={style._right_top}>
                         <div className={style.recipe}>
-                            <h3>Recipe</h3>
-                            <p>{currentUser.countRecipes}</p>
+                            <h3>{data.countProfileName1}</h3>
+                            <p>{props.currentUser.countRecipes}</p>
                         </div>
                         <div className={style.followers}>
-                            <h3>Followers</h3>
-                            <p>{currentUser.followers}</p>
+                            <h3>{data.countProfileName2}</h3>
+                            <p>{props.currentUser.followers}</p>
                         </div>
                         <div className={style.following}>
-                            <h3>Following</h3>
-                            <p>{currentUser.following}</p>
+                            <h3>{data.countProfileName3}</h3>
+                            <p>{props.currentUser.following}</p>
                         </div>
                     </div>
                     <div className={style.right_bottom}>
-                        <h2>{currentUser.name}</h2>
+                        <h2>{props.currentUser.name}</h2>
                     </div>
                 </div>
             </div>
             <div className={style.about}>
-                <h3>{currentUser.position}</h3>
-                <h3>{currentUser.about}</h3>
+                <h3>{props.currentUser.position}</h3>
+                <h3>{props.currentUser.about}</h3>
             </div>
             <div className={style.add_recipe}>
-                {currentUser.idUrl === user.idUrl ? <Link to={`/profile/add_recipe`}><button>Add Recipe</button></Link> : <div></div>} 
+                {props.currentUser.idUrl === props.user.idUrl ? <Link to={`/profile/add_recipe`}><button>{data.btnNameAddREcipe}</button></Link> : ""} 
             </div>
-            {currentUser.idUrl === user.idUrl ?  
+            {props.currentUser.idUrl === props.user.idUrl ?  
                 <div className={style.tabs}>
-                    <button onClick={(e) => setBtn_tabs(e.target.textContent)}>Recipes</button>
-                    <button onClick={(e) => setBtn_tabs(e.target.textContent)}>Follow Users</button>
-                    <button onClick={(e) => setBtn_tabs(e.target.textContent)}>Notifications</button>
+                    <button onClick={(e) => props.btnTabs(e.target.textContent)}>{data.btnsTabs.tabName1}</button>
+                    <button onClick={(e) => props.btnTabs(e.target.textContent)}>{data.btnsTabs.tabName2}</button>
+                    <button onClick={(e) => props.btnTabs(e.target.textContent)}>{data.btnsTabs.tabName3}</button>
                 </div> 
                 :  
                 <div className={style.tabs}>
-                    <h2>Recipes</h2>
+                    <h2>{data.recipeTab}</h2>
                 </div>
             }
             <div className={style.profile_tabs_section}>
-                {btn_tabs === "Recipes" && tabUserRecipes}
-                {btn_tabs === "Follow Users" && tabUserFollowings}
-                {btn_tabs === "Notifications" && <div>section in progress</div>}
+                {props.btn_tabs === data.btnsTabs.tabName1 && props.tabUserRecipes}
+                {props.btn_tabs === data.btnsTabs.tabName2 && props.tabUserFollowings}
+                {props.btn_tabs === data.btnsTabs.tabName3 && props.tabUserNotification}
             </div>
         </div>
     )
-    } else if (noUserData && user.name === "Guest") { return (<NotAccessPage />)}else return (<div>{(isAuth && noUserData) &&<LoginEmptyPage />}
-    {(isAuth && !noUserData) && <div> This user page does not exist</div>}
-    </div>)
 }

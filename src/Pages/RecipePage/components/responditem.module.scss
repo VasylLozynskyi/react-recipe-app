@@ -1,0 +1,33 @@
+.item_block{
+  text-align: start;
+  margin: 20px;
+  padding: 5px;
+  border: 1px solid #A9A9A9;
+  border-radius: 5px;
+  .user_block{
+    margin-bottom: 10px;
+    display: flex;
+    gap: 5px;
+    .avatar{
+      width: 30px;
+      height: 30px;
+      img{
+        width: 100%;
+      }
+    }
+    .info{
+      h2{
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 16px;
+        color: black;
+      }
+      p{
+        font-weight: 400;
+        font-size: 8px;
+        line-height: 12px;
+        color: #A9A9A9;
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.searchpage_container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 40px;
+  .input_section{
+    display: flex;
+    gap: 10px;
+    margin: 10px;
+    input{
+      width: 80%;
+      height: 40px;
+      padding-left: 10px;
+      border: 1.3px solid #D9D9D9;
+      border-radius: 10px;
+      &::placeholder{
+          color: #0a7a5e44;
+      }
+    }
+    button{
+        height: 40px;
+        padding: 0 10px;
+        background-color:  #129575;
+        color: white;
+        &:hover{
+            background-color: #0a7a5e;
+        }
+    }
+  }
+}

@@ -4,8 +4,8 @@ import style from "./emptypage.module.scss"
 export const LoginEmptyPage = (props) => {
     return (
         <div className={style.emptypage_container}>
-            <p>You must first to</p>
-            <Link to={"/login"}>Login</Link>
+            <p>{props.data.title}</p>
+            <Link to={"/login"}>{props.data.link}</Link>
         </div>
     )
 }
@@ -13,8 +13,8 @@ export const LoginEmptyPage = (props) => {
 export const EmptyPage = (props) => {
     return (
         <div className={style.emptypage_container}>
-            <p>This page does not exist</p>
-            <p>Please return to <Link to={"/"} >home</Link> page</p>
+            <p>{props.data.title}</p>
+            <p>{props.data.subTitleStart} <Link to={"/"} >{props.data.link}</Link> {props.data.subTitleEnd}</p>
         </div>
     )
 }

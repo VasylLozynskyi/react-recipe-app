@@ -79,6 +79,15 @@
       display: flex;
       gap: 5px;
       margin: 30px 0 15px 0;
+      position: relative;
+        .valid_search{
+            color: red;
+            position: absolute;
+            font-family: "Poppins-Regular";
+            font-size: 12px;
+            margin: 5px;
+            top: 35px;
+        }
         input{
             width: 80%;
             height: 40px;

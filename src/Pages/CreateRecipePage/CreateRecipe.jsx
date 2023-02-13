@@ -1,193 +1,83 @@
-import { useState } from "react";
 import { Categories } from "../../data/data";
-import {useNavigate} from "react-router-dom"
 import style from "./createrecipepage.module.scss"
-import { useSelector } from "react-redux";
-import store from "../../Components/Redux/store/store";
-import { updateCountRecipesUserAction } from "../../Components/Redux/Actions/indexUser";
-import { createRecipe } from "../../Components/utills/functions";
 
-
-export const CreateRecipe = () => {
-    const user = useSelector(state => state.userPage.user)
-    const isAuth = useSelector(state => state.userPage.isAuth)
-    const [title, setTitle]=useState("");
-    const [err_Title, setErr_Title]= useState("");
-    const [category, setCategory]= useState("All");
-    const [time, setTime]= useState(0);
-    const [err_Time, setErr_Time]=useState("")
-    const [procedureList, setProcedureList] = useState([{}]);
-    const [inputList, setInputList] = useState([{}]);
-    const [file, setFile] = useState({});
-    const [err_File, setErr_File]=useState("")
-    const [invalid_title, setInvalid_title]=useState({})
-    const [invalid_time, setInvalid_time]=useState({})
-    const [invalid_file, setInvalid_file]=useState({})
-    const [invalidSubmit, setInvalidSubmit]=useState({})
-    const navigate = useNavigate();
-    const invalid_style = {border: "1px solid red"};
-    const valid_style = {border: "1px solid gray"};
-    // handle input change ingradient
-    const handleInputChange = (e, index) => {
-      const { name, value } = e.target;
-      const list = [...inputList];
-      list[index][name] = value;
-      setInputList(list);
-    }
-    // handle click event of the Remove ingradient
-    const handleRemoveClick = index => {
-      const list = [...inputList];
-      list.splice(index, 1);
-      setInputList(list);
-    }
-    // handle click event of the Add ingradient
-    const handleAddClick = () => {
-      setInputList([...inputList, {}]);
-    }
-    // handle click event of the Add procedure
-    const handleListProcedureAdd = (e) => {
-        e.preventDefault();
-        setProcedureList([...procedureList, {}])
-    }
-    // handle input change procedure
-    const handleInputProcedureChange = (event, index) => {
-        const { value } = event.target
-        const newProcedureList = [...procedureList]
-        newProcedureList[index].input = value
-        newProcedureList[index].input_rank = index + 1
-        setProcedureList(newProcedureList)
-    }
-    // handle click event of the Remove ingradient
-    const handleRemoveProcedureItem = (index) => {
-        const newList = [...procedureList]
-        newList.splice(index, 1)
-        setProcedureList(newList)
-    }
-    const handleChange = (e) => {
-        if (e.target.id === "title") setTitle(e.target.value);
-        if (title.length >= 29) {
-            setErr_Title("You can not write more then 30 letters");
-            setInvalid_title(invalid_style);
-        } else {
-            setErr_Title("");
-            setInvalid_title(valid_style);
-        }
-        if (e.target.id === "category") setCategory(e.target.value);
-        if (e.target.id === "time") setTime(e.target.value);
-    }
-    const newRecipe = () => {
-        let newRecipe = {
-            id: Math.floor(Math.random() * 99999),
-            idUser: user.uid,
-            authorName: user.name,
-            title: title,
-            recipe: {
-                ingredients: inputList,
-                procedure: procedureList,
-            },
-            time : time,
-            category: category,
-        }
-        return newRecipe;
-    }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if(!title || title.length === 0) {
-            setErr_Title("field Recipe name must not be empty"); 
-            setInvalid_title(invalid_style);
-        } else {setErr_Title(""); setInvalid_title(valid_style)};
-        if (!time) {
-            setErr_Time("field time to prepare must not be empty");
-            setInvalid_time(invalid_style);
-        } else {setErr_Time(""); setInvalid_time(valid_style); } 
-        if (!file.name) {
-            setErr_File("You must choose a photo file");
-            setInvalid_file(invalid_style);
-        } else {setErr_File("");  setInvalid_file(valid_style);}
-        
-        if (!err_Title && !err_Time && !err_File && isAuth) {
-        createRecipe(newRecipe(), user, file);
-        store.dispatch(updateCountRecipesUserAction())
-         navigate(`/profile/${user.idUrl}`)
-         setInvalidSubmit({border: "none"});
-        } else  setInvalidSubmit(invalid_style);
-    }
-
+export const CreateRecipe = (props) => {
+    const data = props.dataSite;
     return (
         <div className={style.createrecipe_container}>
-            <h2>New Recipe</h2>
-            <form onSubmit={handleSubmit}>
+            <h2>{data.title}</h2>
+            <form onSubmit={props.handleSubmit}>
                 <div className={style.section}>
-                    <label htmlFor="title">Recipe name</label>
-                    <input type="text" name="title" id="title" style={invalid_title} onChange={handleChange} maxLength="30"/>
-                    <p className={style.invalid_value}>{err_Title}</p>
+                    <label htmlFor="title">{data.labelName}</label>
+                    <input type="text" name="title" id="title" style={props.invalid_title} onChange={props.handleChange} maxLength="30"/>
+                    <p className={style.invalid_value}>{props.err_Title}</p>
                 </div>
                 <div className={style.section}>
-                    <label htmlFor="category">Category</label>
-                    <select name="category" id="category" onChange={handleChange} >
+                    <label htmlFor="category">{data.labelCategory}</label>
+                    <select name="category" id="category" onChange={props.handleChange} >
                         {Categories.map(category => <option key={category} value={category}>{category}</option>)}
                     </select>
                 </div>
                 <div className={style.section}>
-                    <label htmlFor="time">time to prepare (mins)</label>
-                    <input type="number" id="time" name="time" style={invalid_time} onChange={handleChange}/>
-                    <p className={style.invalid_value}>{err_Time}</p>
+                    <label htmlFor="time">{data.labelTimePrepare}</label>
+                    <input type="number" id="time" name="time" style={props.invalid_time} onChange={props.handleChange}/>
+                    <p className={style.invalid_value}>{props.err_Time}</p>
                 </div>
                 <div className={style.section}>
-                    <label htmlFor="ingredients">Ingredients</label>
-                    {inputList.map((x, i) => {
+                    <label htmlFor="ingredient">{data.labelIngredient}</label>
+                    {props.inputList.map((x, i) => {
                     return (
                     <div key={i} className={style.ingradient_name}>
                         <input
                             type="text"
                             name="ingredient"
-                                placeholder="Enter ingredient"
+                            placeholder={data.addIngredient.placeholderText}
                             value={x.ingredient || ""}
-                            onChange={e => handleInputChange(e, i)}
+                            onChange={e => props.handleInputChange(e, i)}
                         />
                         <input
                             type="number"
                             className={style.ingradient_qty}
                             name="weight"
-                                placeholder="Enter weight (grams)"
+                                placeholder={data.addIngredient.placeholderNumber}
                             value={x.weight || ""}
-                            onChange={e => handleInputChange(e, i)}
+                            onChange={e => props.handleInputChange(e, i)}
                         />
                         
-                            {inputList.length !== 1 && <button
+                            {props.inputList.length !== 1 && <button
                                 className={style.btn_remove}
-                                onClick={() => handleRemoveClick(i)}> <span>❌</span></button>}
-                            {inputList.length - 1 === i && <button className={style.btn_add} onClick={handleAddClick}>Add ingradient</button>}
+                                onClick={() => props.handleRemoveClick(i)}> <span>{data.buttonDelete}</span></button>}
+                            {props.inputList.length - 1 === i && <button className={style.btn_add} onClick={props.handleAddClick}>{data.addIngredient.button}</button>}
                         
                     </div>
                     );
                     })}
                 </div>
                 <div className={style.section}>
-                    <label htmlFor="procedure">Procedure</label>
-                    {procedureList.length > 0 ? procedureList.map((input, index) => (
+                    <label htmlFor="procedure">{data.labelProcedure}</label>
+                    {props.procedureList.length > 0 ? props.procedureList.map((input, index) => (
                     <div key={index} className={style.procedureindex}>
-                        <p>{`${index + 1} step`}</p>
+                        <p>{`${index + 1} ${data.addProcedure.step}`}</p>
                         <textarea
-                            label={`input ${index + 1}`}
-                            onChange={(event) =>  handleInputProcedureChange(event, index)}
+                            label={`textarea ${index + 1}`}
+                            onChange={(event) =>  props.handleInputProcedureChange(event, index)}
                         />
-                        {procedureList.length > 1 ? 
-                            <button className={style.btn_remove} onClick={() => handleRemoveProcedureItem(index)}>
-                                <span>❌</span>
+                        {props.procedureList.length > 1 ? 
+                            <button className={style.btn_remove} onClick={() => props.handleRemoveProcedureItem(index)}>
+                                <span>{data.buttonDelete}</span>
                             </button> : ""}
                     </div>
-                    )) : "No procedure in the list "}
-                    <button style={style.btn_add} onClick={handleListProcedureAdd}>
-                        Add new step
+                    )) : <span>{data.addProcedure.noProcedure}</span>}
+                    <button style={style.btn_add} onClick={props.handleListProcedureAdd}>
+                        {data.addProcedure.button}
                     </button>
                 </div>
                 <div className={style.section}>
-                    <label htmlFor="photo_food">photo</label>
-                    <input type="file" name="photo_food" id="img_file" style={invalid_file} onChange={(e) => {setFile(e.target.files[0])}}/>
-                    <p className={style.invalid_value}>{err_File}</p>
+                    <label htmlFor="photo_food">{data.labelFile}</label>
+                    <input type="file" name="photo_food" id="photo_food" style={props.invalid_file} onChange={(e) => props.setFileValue(e)}/>
+                    <p className={style.invalid_value}>{props.err_File}</p>
                 </div>
-            <input className={style.btn_submit} type="submit" value="Submit" style={invalidSubmit} />
+            <input className={style.btn_submit} type="submit" value={data.buttonSubmitName} style={props.invalidSubmit} />
             </form>
         </div>
     )

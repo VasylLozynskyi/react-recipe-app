@@ -20,14 +20,16 @@ const usersReducer = (state = initialState, action) => {
                     }
                 }
             }
+            
         return {...state, userFollowings: usersFoll}
         case ADD_CURRENT_USER_FOLLOW:
-        //     let ar = [...state.users];
-        //     for (let el of ar){
-        //         if (el.idUrl === action.idUser){
-        //             el.followers.
-        //         }
-        //     }
+            // console.log(state.userFollowings);
+            // let ar = [...state.users];
+            // for (let el of ar){
+            //     if (el.idUrl === action.idUser){
+            //        el.userfollowers = 
+            //     }
+            // }
         //  let [following] = ar.filter(user => user.idUrl === action.idUser)
         //  console.log(following);
         //  +following.followers += 1;
@@ -37,7 +39,7 @@ const usersReducer = (state = initialState, action) => {
         //   }
          // action.idUser  action.idUrl
            
-         return state;
+         return {...state}
         default:
             return {...state}
     }

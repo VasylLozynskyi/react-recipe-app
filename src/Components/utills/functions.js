@@ -161,3 +161,33 @@ export const setcreateToUserRate = (rate, product, id) => {
                 .catch((error) => {console.log("there was an error, details: " + error)});
   }
 }
+
+export function generateCode() {
+  let prefix = new Array(2).fill().map(() => getRandomUppercaseChar()).join(""),
+      integer = Math.floor((Math.random() * 9999) * 7);
+  return prefix + integer;
+}
+
+export const newDateREspond =() => {
+  const date = new Date();
+  return date.toString();
+} 
+
+function getRandomUppercaseChar() {
+  let r = Math.floor(Math.random() * 26);
+  return String.fromCharCode(65 + r);
+}
+
+export const saveRecipeRespond = (recipe, respond) => {
+  if (recipe && respond) {
+    set(ref(db, `recipes/`+ recipe.id + `/responds/` + recipe.reviews),
+                      respond,
+                    ).then(() => {console.log("respond add to base")})
+                    .catch((error) => {console.log("there was an error, details: " + error)});
+    set(ref(db, `recipes/`+ recipe.id + `/reviews`),
+                      recipe.reviews + 1
+                    ).then(() => {console.log("respondcount update to base")})
+                    .catch((error) => {console.log("there was an error, details: " + error)});
+  }
+
+}
