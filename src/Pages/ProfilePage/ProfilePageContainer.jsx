@@ -10,6 +10,7 @@ import { getUserRecipesAction } from "../../Components/Redux/Actions/indexRecipe
 import { getFollowingUsers } from "../../Components/Redux/Actions/indexUsers";
 import { FollowingsCardUserProfile } from "./components/FollowingsCardUserProfile";
 import { ProfilePage } from "./ProfilePage";
+import { deleteFollowingUser } from "../../Components/utills/functions";
 
 export const ProfilePageContainer = (props) => {
     const {id} = useParams();
@@ -31,8 +32,14 @@ export const ProfilePageContainer = (props) => {
             } else setNoUserData(false)
         })
     }, [id, user])
+
+    const handleUnFollow = (userToDel) => {
+      deleteFollowingUser(userToDel, user )
+      // store unfollow
+    }
+
     let tabUserRecipes = userRecipes.length > 0 ? userRecipes.map(el => <RecipeCardUserProfile key={el.id} recipe={el}/>) : "it's empty";
-    let tabUserFollowings = userFollowings.length > 0 ? userFollowings.map(el => <FollowingsCardUserProfile key={el.id} user={el} />) : "it's empty";
+    let tabUserFollowings = userFollowings.length > 0 ? userFollowings.map(el => <FollowingsCardUserProfile key={el.id} user={el} handleUnFollow={handleUnFollow} />) : "it's empty";
     let tabUserNotification = ["section in progress"];
     if (noUserData && isAuth && currentUser.name !== "Guest") { 
     return (

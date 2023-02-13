@@ -1,0 +1,23 @@
+.followings_container{
+  border: 1px solid black;
+  border-radius: 10px;;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  a{
+    color: black;
+    .img_user{
+      width: 30px;
+      height: 30px;
+      margin-bottom: 10px;
+      img{
+        width: 100%;
+      }
+    }
+  }
+  button{
+    height: 40px;
+    padding: 5px;
+  }
+}

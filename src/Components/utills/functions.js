@@ -189,5 +189,24 @@ export const saveRecipeRespond = (recipe, respond) => {
                     ).then(() => {console.log("respondcount update to base")})
                     .catch((error) => {console.log("there was an error, details: " + error)});
   }
+}
 
+export const deleteFollowingUser = (userToDel, user) =>{
+
+  set(ref(db, `users/`+ user.idUrl +`/following`),
+                    +user.following - 1
+                    ).then(() => {})
+                     .catch((error) => {console.log("there was an error, details: " + error)});
+  set(ref(db, `users/`+ user.idUrl +`/usersfollowing/` + userToDel.idUrl),
+                      null
+                    ).then(() => {})
+                     .catch((error) => {console.log("there was an error, details: " + error)});
+  set(ref(db, `users/`+ userToDel.idUrl +`/followers`),
+                    +userToDel.followers - 1
+                    ).then(() => {})
+                     .catch((error) => {console.log("there was an error, details: " + error)});
+  set(ref(db, `users/`+ user.idUrl +`/usersfollowers/` + user.idUrl),
+                      null
+                    ).then(() => {})
+                     .catch((error) => {console.log("there was an error, details: " + error)});
 }
