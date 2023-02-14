@@ -1,5 +1,5 @@
-import { updateUserParam } from "../../utills/functions";
-import { SET_STATE, UPDATE_ABOUT, UPDATE_AVATAR, UPDATE_COUNTRECIPES, UPDATE_NAME, UPDATE_POSITION, UPDATE_RATES, USER_LOGOUT } from "../Constants/constants";
+import { addFollower, deleteFollowingUser, updateUserParam } from "../../utills/functions";
+import { ADD_CURRENT_USER_FOLLOW, DELETE_USER_FOLLOW, SET_STATE, UPDATE_ABOUT, UPDATE_AVATAR, UPDATE_COUNTRECIPES, UPDATE_NAME, UPDATE_POSITION, UPDATE_RATES, USER_LOGOUT } from "../Constants/constants";
 import { signOut } from "firebase/auth";
 import { auth } from "../../utills/firebase";
 
@@ -38,6 +38,7 @@ const userReducer = (state = initialState, action) => {
             const obj={"key": action.rates};
             obj[action.id] = obj["key"]
             delete obj["key"]
+            if (!state.user.rates) state.user.rates = {}
             let ar = Object.assign(state.user.rates, obj)
             return {
                 ...state,
@@ -48,6 +49,48 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: {...state.user, countRecipes: +state.user.countRecipes + 1 }                          
+            } 
+        case ADD_CURRENT_USER_FOLLOW:
+                addFollower(action.idUser, "followers", state.user);
+                let newUser = {...state.user};
+                const objF={"key": action.idUser};
+                objF[action.idUser] = objF["key"]
+                delete objF["key"];
+                let foll = {};
+                let count = newUser.following;
+                if (!newUser.usersFollowing) {
+                    newUser.usersFollowing = {};
+                    foll = Object.assign(newUser.usersFollowing, objF)
+                    count = +count + 1
+                } else {
+                    let bool = false;
+                    for (let el in newUser.usersFollowing){
+                        if (el === action.idUser){
+                            bool = true;
+                            break;
+                        }
+                    }
+                    if (bool) {
+                        foll = newUser.usersFollowing;
+                    } else {
+                        foll = Object.assign(newUser.usersFollowing, objF)
+                        count = +count + 1
+                    }
+                }
+                return {
+                    ...state,
+                    user: {...state.user, 
+                        usersFollowing: foll,
+                        following: count}
+                }
+        case DELETE_USER_FOLLOW:
+            deleteFollowingUser(action.userToDel, action.user)
+            let deleteUser = {...state.user};
+            delete deleteUser.usersFollowing[action.userToDel.idUrl];
+            deleteUser.following = +deleteUser.following - 1;
+            return {
+                ...state,
+                user: {...deleteUser}
             }
         case USER_LOGOUT:
             signOut(auth).then(() => {

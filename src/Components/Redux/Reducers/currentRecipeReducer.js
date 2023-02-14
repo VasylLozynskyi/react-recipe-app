@@ -1,5 +1,5 @@
-import { saveRecipeRespond } from "../../utills/functions";
-import { ADD_REVIEW_RECIPE, SET_CURRENT_RECIPE_STATE } from "../Constants/constants";
+import { saveRecipeRespond, updateRecipeParam } from "../../utills/functions";
+import { ADD_REVIEW_RECIPE, SET_CURRENT_RECIPE_STATE, UPDATE_RECIPE_IMG, UPDATE_RECIPE_TITLE } from "../Constants/constants";
 
 let initialState = {
     recipe: {}
@@ -20,6 +20,16 @@ const currentRecipeReducer = (state = initialState, action) => {
             rec.reviews = +rec.reviews + 1;
             return {...state,
                  recipe: rec,   
+            }
+        case UPDATE_RECIPE_IMG:
+            updateRecipeParam(state.recipe, "img", action.url)
+            return {...state,
+                recipe: {...state.recipe, img: action.url}
+            }
+        case UPDATE_RECIPE_TITLE:
+            updateRecipeParam(state.recipe, "title", action.title)
+            return {...state,
+                recipe: {...state.recipe, title: action.title}
             }
         default:
             return {...state}

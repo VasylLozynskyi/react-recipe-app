@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams} from "react-router-dom"
-import { addFollower } from "../../Components/utills/functions";
 import { getRecipe } from "../../Components/utills/api";
 import { useSelector } from "react-redux";
 import { RecipePage } from "./RecipePage";
 import { EmptyPage } from "../EmptyPage/EmptyPage"
 import store from "../../Components/Redux/store/store";
 import { setCurrentRecipeAction } from "../../Components/Redux/Actions/indexRecipe";
+import { addUserFollowAction } from "../../Components/Redux/Actions/indexUser";
+import { addUserFollower } from "../../Components/Redux/Actions/indexUsers";
 
 export const RecipePageContainer = (props) => {
     const user = useSelector(state => state.userPage.user)
@@ -23,7 +24,7 @@ export const RecipePageContainer = (props) => {
     useEffect(()=>{
         getRecipe(id).then(data => {
             if (data){
-                setRate(data.rating.rate);
+                setRate(data.rating.rate.toFixed(1));
                 setTimePrepare(data.time);
                 setInfoIngredient(true);
                 store.dispatch(setCurrentRecipeAction(data))
@@ -31,7 +32,8 @@ export const RecipePageContainer = (props) => {
         })
     }, [id]);
     const handleFollow = () => {
-       addFollower(recipe.idUser, "followers", user)
+        store.dispatch(addUserFollowAction(recipe.idUser))
+        store.dispatch(addUserFollower(recipe.idUser, user.idUrl))
     }
     const handleClick = (e) =>{
         if (e.target.textContent === "Ingredients"){

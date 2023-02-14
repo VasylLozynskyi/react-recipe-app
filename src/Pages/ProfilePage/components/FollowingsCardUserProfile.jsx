@@ -3,6 +3,9 @@ import style from "./followingscarduserprofile.module.scss"
 
 export const FollowingsCardUserProfile = (props) => {
   const user = props.user
+  const handleUn = () => {
+    props.handleUnFollow(user)
+  }
   return (
     <div className={style.followings_container}>
       <Link to={`/profile/${user.idUrl}`}>
@@ -11,7 +14,7 @@ export const FollowingsCardUserProfile = (props) => {
         </div>
         <h2>{user.name}</h2>
       </Link>
-      <button onClick={props.handleUnFollow(user)}>Unfollow</button>
+      <button onClick={handleUn}>Unfollow</button>
     </div>
   )
 }

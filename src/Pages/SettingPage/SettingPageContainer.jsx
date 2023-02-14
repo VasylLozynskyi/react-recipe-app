@@ -6,6 +6,7 @@ import { updateAboutUserAction, updateNameAction, updateNewAvatarAction, updateP
 import { ref as sRef, uploadBytesResumable, getDownloadURL} from "firebase/storage"
 import { dbStorage } from "../../Components/utills/firebase";
 import { SettingPage } from "./SettingPage"
+import { updateUserRecipesNameuser } from "../../Components/Redux/Actions/indexRecipes";
 
 export const SettingPageContainer = (props) => {
     const user = useSelector(state => state.userPage.user)
@@ -26,6 +27,7 @@ export const SettingPageContainer = (props) => {
             setValid_style({borderColor: "red"})
         } else if (changeName) {
             store.dispatch(updateNameAction(changeName))
+            store.dispatch(updateUserRecipesNameuser(changeName, user.idUrl))
             setValid_style({borderColor: "gray"})
             setErr_Name("");
         }
@@ -54,7 +56,6 @@ export const SettingPageContainer = (props) => {
                     store.dispatch(updateNewAvatarAction(url))
                 });
                 });
-            
         }
     }
     const handleLogout = () => {               

@@ -76,6 +76,7 @@ export const dataSite = {
                 subTitle3: "Category",
                 buttonSubmit: "Filter",
             },
+            noRecipes: "no recipes in filter",
         },
         recipePage: {
             buttonSetting: "...",

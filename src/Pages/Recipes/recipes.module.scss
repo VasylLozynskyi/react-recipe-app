@@ -14,4 +14,14 @@
     justify-content: space-around;
     flex-wrap: wrap;
     }
+    button{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button:focus{
+      background-color: white;
+      color: black;
+    }
 }
+

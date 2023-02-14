@@ -9,8 +9,8 @@ export const ButtonRate = (props) => {
     function rateLeave() {
         setStar(star_green)
     }
-    function rateHandler() {
-
+    const rateHandler = (e) => {
+        props.onChackRate(e)
     }
    
     return(

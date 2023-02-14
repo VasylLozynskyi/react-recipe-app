@@ -6,9 +6,6 @@ export const Filter = (props) => {
       <div className={style.popup_container_filter}>
         <h2>{props.data.title}</h2>
         <div>
-          <h2>{props.data.subTitle1}</h2>
-        </div>
-        <div>
           <h2>{props.data.subTitle2}</h2>
           <div className={style.button_rate}>
             {props.buttons_rate}

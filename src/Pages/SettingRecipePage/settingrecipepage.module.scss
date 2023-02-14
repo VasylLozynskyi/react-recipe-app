@@ -1,0 +1,114 @@
+.recipe_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  
+  .img_section{
+    position: relative;
+    margin: 10px;
+    width: 315px;
+    height: 150px;
+    ._time{
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background-color: #D9D9D9;
+      opacity: 0.5;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 10px;   
+    }
+    .rating{
+      position: absolute;
+      width: 40px;
+      background: #FFE1B3;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px; 
+      padding: 5px;
+      top: 10px;
+      right: 10px;
+    }
+    .img{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      img{
+        width: 100%;
+      }
+    }
+  }
+  .title{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 10px;
+    &::before{
+      content: "Name recipe: ";
+      font-size: 12px;
+      font-style: italic;
+      margin-right: 10px;
+    }
+  }
+  .info_recipe{
+    margin: 10px;
+    max-width: 700px;
+    .btns_info{
+      display: flex;
+      gap: 15px;
+      width: 100%;
+      button{
+        width: 33%;
+        height: 30px;
+        padding: 0 10px;
+      }
+    }
+    .info_section{
+      margin: 30px 10px;
+      .section{
+        margin: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        background: #D9D9D9;
+        padding: 12px;
+        border-radius: 12px;
+        p{
+          font-weight: 600;
+          font-size: 16px;
+          line-height: 24px;
+        }
+        p:last-child{
+          font-style: italic;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 21px;
+          color: #A9A9A9;
+        }
+      }
+    }
+  }
+  .input_section{
+    display: flex;
+    align-items: center;
+    input {
+      width: 250px;
+      border: 1px solid gray;
+      margin: 10px;
+      padding: 5px;
+    }
+    button{
+      height: 35px;
+      padding: 5px;
+    }
+  }
+  
+}

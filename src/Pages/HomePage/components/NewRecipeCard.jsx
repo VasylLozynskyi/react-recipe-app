@@ -10,7 +10,7 @@ export const NewRecipeCard = (props) => {
                 <img src={props.data.img} alt="" />
             </div>
             <div className={style.card_section}>
-                <h3>{props.data.title}</h3>
+                <Link to={`/recipes/${props.data.id}`}><h3>{props.data.title}</h3></Link>
                 <div className={style.card_rate}>
                     <img src={star} alt="" />
                     <p>{props.data.rating.rate}</p>

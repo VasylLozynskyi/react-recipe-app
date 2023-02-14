@@ -24,7 +24,7 @@ export const RecipePage = (props) => {
                 </div>
                <div className={style.rating}>
                     <img src={star} alt="star" />
-                    <p>{props.rate.toFixed(1)}</p>
+                    <p>{props.rate}</p>
                 </div>
                  <div className={style._time}>
                     <img src={timer} alt="timer_icon" />

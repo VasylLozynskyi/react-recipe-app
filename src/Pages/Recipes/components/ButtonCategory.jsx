@@ -1,6 +1,6 @@
 
 export const ButtonCategory = (props) => {
     return(
-            <button>{props.data}</button>
+            <button onClick={e => props.onChackCategory(e)}>{props.data}</button>
     )
 }

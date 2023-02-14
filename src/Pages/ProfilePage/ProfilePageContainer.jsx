@@ -10,7 +10,7 @@ import { getUserRecipesAction } from "../../Components/Redux/Actions/indexRecipe
 import { getFollowingUsers } from "../../Components/Redux/Actions/indexUsers";
 import { FollowingsCardUserProfile } from "./components/FollowingsCardUserProfile";
 import { ProfilePage } from "./ProfilePage";
-import { deleteFollowingUser } from "../../Components/utills/functions";
+import { deleteUserFollowAction } from "../../Components/Redux/Actions/indexUser";
 
 export const ProfilePageContainer = (props) => {
     const {id} = useParams();
@@ -21,6 +21,7 @@ export const ProfilePageContainer = (props) => {
     const userRecipes = useSelector(state => state.recipes.userRecipes)
     const [noUserData, setNoUserData] = useState(true)
     const [btn_tabs, setBtn_tabs] = useState("");
+
     useEffect(() => {
         getUser(id).then(data => {
             if (data){
@@ -32,14 +33,19 @@ export const ProfilePageContainer = (props) => {
             } else setNoUserData(false)
         })
     }, [id, user])
-
     const handleUnFollow = (userToDel) => {
-      deleteFollowingUser(userToDel, user )
-      // store unfollow
+      if (userToDel){
+        for (let id in userToDel.usersFollowers){
+          if (+id === +user.idUrl){
+            store.dispatch(deleteUserFollowAction(userToDel, user))
+            break;
+          } console.log("error in followers can't find user")
+        }
+      }
     }
 
     let tabUserRecipes = userRecipes.length > 0 ? userRecipes.map(el => <RecipeCardUserProfile key={el.id} recipe={el}/>) : "it's empty";
-    let tabUserFollowings = userFollowings.length > 0 ? userFollowings.map(el => <FollowingsCardUserProfile key={el.id} user={el} handleUnFollow={handleUnFollow} />) : "it's empty";
+    let tabUserFollowings = userFollowings.length > 0 ? userFollowings.map(el => <FollowingsCardUserProfile key={el.idUrl} user={el} handleUnFollow={handleUnFollow} />) : "it's empty";
     let tabUserNotification = ["section in progress"];
     if (noUserData && isAuth && currentUser.name !== "Guest") { 
     return (
